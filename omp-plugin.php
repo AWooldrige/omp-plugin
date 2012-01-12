@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: OnMyPlate.co.uk Recipe Formatter
+Plugin Name: OnMyPlate.co.uk Recipe Manager
 Plugin URI: https://github.com/AWooldrige/omp-plugin
 Description: Formatting for recipes on OnMyPlate.co.uk
 Version: 0.1.0

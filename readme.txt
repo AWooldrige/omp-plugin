@@ -1,10 +1,10 @@
-=== OnMyPlate.co.uk Recipe Formatter ===
+=== OnMyPlate.co.uk Recipe Manager ===
 Contributors: woolie
 Donate link: http://onmyplate.co.uk
 Tags: food, recipe, parser, markdown
 Requires at least: 3.3.1
 Tested up to: 3.3.1
-Stable tag: 0.1
+Stable tag: 0.1.0
 
 Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
 

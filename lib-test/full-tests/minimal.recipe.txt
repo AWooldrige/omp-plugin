@@ -1,0 +1,9 @@
+If there is no "more" definition, one will be added before the first ===.
+
+=== Ingredients ===
+Ingr 1 - 15 cups
+Ingr 2 - 5 g - evenly sliced
+
+=== Method ===
+1. Step 1
+2. Step 3

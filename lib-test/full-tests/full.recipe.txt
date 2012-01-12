@@ -1,0 +1,46 @@
+The more text should be the first paragraphs within a recipe, it is possible for them to extend over...
+
+Multiple paragraphs!
+
+=== Ingredients ===
+Ingr 1 - 15 cups
+Ingr 2 - 5 g - evenly sliced
+
+=== Ingredients for Component ===
+Test Ingredient
+Ingredient One - 5
+Ingredient Two - 678 ml - or substitue for fresh
+
+=== Method ===
+1. Step 1
+    1. Substep 1
+    2. Substep 2
+    3. Substep 3
+2. Step 2
+3. Step 3
+
+
+=== Tips ===
+- Tip 1
+    - Subtip 1
+    - Subtip 2
+-Tip 2
+
+=== Preparation ===
+- Advance preparation tip 1
+    - Subpreparation tip 1
+    - Subpreparation tip 2
+- Advance preparation tip 2
+
+=== Presentation ===
+- Presentation tip 1
+    - Subpresentation tip 1
+    - Subpresentation tip 2
+- Presentation tip 2
+
+=== Meta ===
+Active time - 10 mins
+Passive time - 20 mins
+Difficulty - 3
+Serves - 3
+Cost - £3.40

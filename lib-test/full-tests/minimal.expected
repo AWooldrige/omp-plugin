@@ -1,0 +1,8 @@
+<?php
+
+$expected = array(
+    'text' => array(
+        'more' => 'If there is no "more" definition, one will be added before the first ===.',
+        'extended' => null
+    ),
+    'ingredients' = array(

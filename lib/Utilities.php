@@ -27,4 +27,17 @@ class Utilities {
         $converted = preg_replace($find, $replace, $raw);
         return $converted;
     }
+
+
+    /**
+     * Splits line breaks into seperate array entries. If there are no new
+     * linebreaks in the string, an array with one element is still returned.
+     * Expects unified new lines.
+     *
+     * @param string $raw text to split new lines
+     * @return array array of each line of the $raw
+     */
+    public function splitOnNewlines($raw) {
+        return split(PHP_EOL, $raw);
+    }
 }

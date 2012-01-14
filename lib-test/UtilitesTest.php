@@ -3,29 +3,41 @@ require_once('lib/Utilities.php');
 
 class UtilitiesTest extends PHPUnit_Framework_TestCase {
 
-    public function test_splitOnNewlines_with_no_newlines() {
-        $original = "A lovely document with lots of character and class";
-        $expected = array(
-            "A lovely document with lots of character and class"
-        );
-        $this->assertEquals(Utilities::splitOnNewlines($original), $expected);
+    /**
+     * @dataProvider dataProvider_splitOnNewlines
+     */
+    public function test_splitOnNewlines($raw, $expected, $shouldEqual) {
+        if($shouldEqual) {
+            $this->assertEquals(Utilities::splitOnNewlines($raw), $expected);
+        }
+        else {
+            $this->assertNotEquals(Utilities::splitOnNewlines($raw), $expected);
+        }
     }
-    public function test_splitOnNewlines_with_2_lines() {
-        $original = "A lovely document with ".PHP_EOL."lots of character and class";
-        $expected = array(
-            "A lovely document with ",
-            "lots of character and class"
+
+
+    public function dataProvider_splitOnNewlines() {
+        return array(
+            //No newlines
+            array("A lovely document with lots of character and class",
+                  array("A lovely document with lots of character and class"),
+                  true),
+
+            //2 newlines
+            array("A lovely document with ".PHP_EOL.
+                  "lots of character and class",
+                  array("A lovely document with ",
+                        "lots of character and class"),
+                  true),
+
+            //3 newlines
+            array("A lovely document with ".PHP_EOL."lots of character ".
+                  PHP_EOL."and class",
+                  array("A lovely document with ",
+                        "lots of character ",
+                        "and class"),
+                  true)
         );
-        $this->assertEquals(Utilities::splitOnNewlines($original), $expected);
-    }
-    public function test_splitOnNewlines_with_3_lines() {
-        $original = "A lovely document with ".PHP_EOL."lots of character ".PHP_EOL."and class";
-        $expected = array(
-            "A lovely document with ",
-            "lots of character ",
-            "and class"
-        );
-        $this->assertEquals(Utilities::splitOnNewlines($original), $expected);
     }
 
 

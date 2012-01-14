@@ -3,26 +3,37 @@ require_once('lib/Utilities.php');
 
 class UtilitiesTest extends PHPUnit_Framework_TestCase {
 
-    public function test_unifyNewLines_with_unix() {
-        $original = "A \n wonderful line \n break.";
-        $expected = "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.";
-        $this->assertEquals($this->stub->unifyNewLines($original), $expected);
+    /**
+     * @dataProvider dataProvider_unifyNewLines
+     */
+    public function test_unifyNewLines($raw, $expected, $shouldEqual) {
+        if($shouldEqual) {
+            $this->assertEquals(Utilities::unifyNewLines($raw), $expected);
+        }
+        else {
+            $this->assertNotEquals(Utilities::unifyNewLines($raw), $expected);
+        }
     }
-    public function test_unifyNewLines_with_windows() {
-        $original = "A \r\n wonderful line \r\n break.";
-        $expected = "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.";
-        $this->assertEquals($this->stub->unifyNewLines($original), $expected);
+
+    public function dataProvider_unifyNewLines() {
+        return array(
+            //Mixed Data
+            array("A \n wonderful line \n break.",
+                  "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.",
+                  true),
+            array("A \r\n wonderful line \r\n break.",
+                  "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.",
+                  true),
+            array("A \r wonderful line \r break.",
+                  "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.",
+                  true),
+            array("A \r wonderful \n line \r\n break.",
+                  "A " . PHP_EOL . " wonderful " . PHP_EOL . " line " .
+                  PHP_EOL . " break.",
+                  true)
+        );
     }
-    public function test_unifyNewLines_with_mac() {
-        $original = "A \r wonderful line \r break.";
-        $expected = "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.";
-        $this->assertEquals($this->stub->unifyNewLines($original), $expected);
-    }
-    public function test_unifyNewLines_with_mixofall() {
-        $original = "A \r wonderful \n line \r\n break.";
-        $expected = "A " . PHP_EOL . " wonderful " . PHP_EOL . " line " . PHP_EOL . " break.";
-        $this->assertEquals($this->stub->unifyNewLines($original), $expected);
-    }
+
 
 
     /**

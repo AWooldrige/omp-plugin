@@ -9,7 +9,7 @@ class Utilities {
      * @param string $raw string to split into paragraphs
      * @return array array of paragraphs
      */
-    public function splitOnParagraphs($raw) {
+    public static function splitOnParagraphs($raw) {
         return preg_split('/'.PHP_EOL."(\s|".PHP_EOL.")*".PHP_EOL.'/', $raw);
     }
 
@@ -20,7 +20,7 @@ class Utilities {
      * @param string $break line break to use
      * @return string Parsed file with unified linebreaks
      */
-    public function unifyNewlines($raw, $break = false) {
+    public static function unifyNewlines($raw, $break = false) {
         $find = array("/(\r\n|\r|\n)/");
         $replace = ($break === false) ? PHP_EOL : $break;
 
@@ -37,7 +37,7 @@ class Utilities {
      * @param string $raw text to split new lines
      * @return array array of each line of the $raw
      */
-    public function splitOnNewlines($raw) {
+    public static function splitOnNewlines($raw) {
         return split(PHP_EOL, $raw);
     }
 }

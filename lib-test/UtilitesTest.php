@@ -42,18 +42,18 @@ class UtilitiesTest extends PHPUnit_Framework_TestCase {
 
 
     /**
-     * @dataProvider dataProvider_unifyNewLines
+     * @dataProvider dataProvider_unifyNewlines
      */
-    public function test_unifyNewLines($raw, $expected, $shouldEqual) {
+    public function test_unifyNewlines($raw, $expected, $shouldEqual) {
         if($shouldEqual) {
-            $this->assertEquals(Utilities::unifyNewLines($raw), $expected);
+            $this->assertEquals(Utilities::unifyNewlines($raw), $expected);
         }
         else {
-            $this->assertNotEquals(Utilities::unifyNewLines($raw), $expected);
+            $this->assertNotEquals(Utilities::unifyNewlines($raw), $expected);
         }
     }
 
-    public function dataProvider_unifyNewLines() {
+    public function dataProvider_unifyNewlines() {
         return array(
             //Mixed Data
             array("A \n wonderful line \n break.",

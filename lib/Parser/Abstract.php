@@ -8,21 +8,6 @@ abstract class Parser_Abstract {
     abstract public function parse();
 
     /**
-     * Convert all line breaks into the server standard format
-     *
-     * @param string $raw Orignal string to conver newlines
-     * @param string $break line break to use
-     * @return string Parsed file with unified linebreaks
-     */
-    public function unifyNewlines($raw, $break = false) {
-        $find = array("/(\r\n|\r|\n)/");
-        $replace = ($break === false) ? PHP_EOL : $break;
-
-        $converted = preg_replace($find, $replace, $raw);
-        return $converted;
-    }
-
-    /**
      * Splits the recipe into paragraphs. Not bothered how many linebreaks
      * inbetween paragraphs either. Expects all linebreaks to be represented
      * by the PHP_EOL delimeter.

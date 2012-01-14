@@ -3,6 +3,28 @@ require_once('lib/Utilities.php');
 
 class UtilitiesTest extends PHPUnit_Framework_TestCase {
 
+    public function test_unifyNewLines_with_unix() {
+        $original = "A \n wonderful line \n break.";
+        $expected = "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.";
+        $this->assertEquals($this->stub->unifyNewLines($original), $expected);
+    }
+    public function test_unifyNewLines_with_windows() {
+        $original = "A \r\n wonderful line \r\n break.";
+        $expected = "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.";
+        $this->assertEquals($this->stub->unifyNewLines($original), $expected);
+    }
+    public function test_unifyNewLines_with_mac() {
+        $original = "A \r wonderful line \r break.";
+        $expected = "A " . PHP_EOL . " wonderful line " . PHP_EOL . " break.";
+        $this->assertEquals($this->stub->unifyNewLines($original), $expected);
+    }
+    public function test_unifyNewLines_with_mixofall() {
+        $original = "A \r wonderful \n line \r\n break.";
+        $expected = "A " . PHP_EOL . " wonderful " . PHP_EOL . " line " . PHP_EOL . " break.";
+        $this->assertEquals($this->stub->unifyNewLines($original), $expected);
+    }
+
+
     /**
      * @dataProvider dataProvider_splitOnParagraphs
      */

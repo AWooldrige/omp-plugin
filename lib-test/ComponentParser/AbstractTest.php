@@ -1,15 +1,15 @@
 <?php
-require_once('lib/ComponentParserAbstract.php');
+require_once('lib/ComponentParser/Abstract.php');
 
-class ComponentParserAbstractTest extends PHPUnit_Framework_TestCase {
+class ComponentParser_AbstractTest extends PHPUnit_Framework_TestCase {
 
     protected $stub;
 
     /**
-     * Need to create a stub, as ComponentParserAbstract is an abstract class.
+     * Need to create a stub, as ComponentParser_Abstract is an abstract class.
      */
     public function setUp() {
-        $this->stub = $this->getMockForAbstractClass('ComponentParserAbstract');
+        $this->stub = $this->getMockForAbstractClass('ComponentParser_Abstract');
     }
 
     public function test_dummyTest() {

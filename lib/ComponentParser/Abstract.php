@@ -1,5 +1,5 @@
 <?php
-abstract class ComponentParserAbstract {
+abstract class ComponentParser_Abstract {
 
     private $rawText;
 

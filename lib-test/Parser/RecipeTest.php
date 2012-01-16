@@ -139,59 +139,6 @@ Cornflour"
 
 
 
-    /**
-     * @dataProvider dataProvider_pSectionHeader_valid
-     */
-    public function test_pSectionHeader_with_valid_data($original, $expected) {
-        $cooked = $this->parser->pSectionHeader($original, false);
-        $this->assertEquals($cooked, $expected);
-    }
-
-    /**
-     * @dataProvider dataProvider_pSectionHeader_invalid
-     * @outputBuffering disabled
-     */
-    public function test_pSectionHeader_with_invalid_data($original, $exception) {
-        $this->setexpectedexception($exception);
-        $cooked = $this->parser->pSectionHeader($original, false);
-    }
-
-    public function dataProvider_pSectionHeader_valid() {
-        return array(
-            array('=== Ingredients for Test Dish',
-                array('type' => 'Ingredients',
-                      'for' => 'Test Dish')),
-            array(' ===   Ingredients   === ',
-                array('type' => 'Ingredients',
-                      'for' => null)),
-            array('=== Ingredients ===',
-                array('type' => 'Ingredients',
-                      'for' => null)),
-            array(' ===  Ingredients    for Test Dish   === ',
-                array('type' => 'Ingredients',
-                      'for' => 'Test Dish')),
-            array('=== Ingredients for Test Dish ===',
-                array('type' => 'Ingredients',
-                      'for' => 'Test Dish'))
-        );
-    }
-    public function dataProvider_pSectionHeader_invalid() {
-        return array(
-            array('Not a fantastic thing.',
-                  'InvalidArgumentException'),
-            array('Not a fantastic thing ===',
-                  'InvalidArgumentException'),
-            array('Ingredients for Test Dish ===',
-                  'InvalidArgumentException'),
-            array('!*) Ingredients for Test Dish ===',
-                  'InvalidArgumentException'),
-            array('=== Ingredients Test Dish ===',
-                  'InvalidArgumentException')
-        );
-    }
-
-
-
     public function test_pIngredientParagraph_with_valid() {
         $original = '=== Ingredients for Test Dish ===' . PHP_EOL .
                     'Test Ingredient - 2 cups - thinly sliced' . PHP_EOL .

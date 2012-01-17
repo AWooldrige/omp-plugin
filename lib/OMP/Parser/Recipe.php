@@ -76,7 +76,7 @@ class Parser_Recipe extends Parser_Abstract {
         $entry = array();
 
         $lines = explode(PHP_EOL, $paragraph);
-        $headData = $this->pSectionHeader($lines[0]);
+        $headData = OMP_Utilities::parseSectionHeader($lines[0]);
 
         if($headData['type'] == 'Ingredients') {
             $entry['for'] = ($headData['for'] == null) ? '_' : $headData['for'];

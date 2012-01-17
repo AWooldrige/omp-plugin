@@ -61,4 +61,10 @@ class ComponentParser_AbstractTest extends PHPUnit_Framework_TestCase {
                   'InvalidArgumentException')
         );
     }
+
+
+    public function test_getComponentName() {
+        $this->setExpectedException('DomainException');
+        $this->stub->getComponentName();
+    }
 }

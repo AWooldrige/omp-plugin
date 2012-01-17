@@ -1,6 +1,7 @@
 <?php
 abstract class ComponentParser_Abstract {
 
+    private $componentName = null;
     private $rawText;
 
     /**
@@ -64,5 +65,20 @@ abstract class ComponentParser_Abstract {
 
         //If we're at this point, it didn't match any
         throw new InvalidArgumentException('Line provided does not match a header line');
+    }
+
+
+    /**
+     * Return the name of the component. There is no set method as this should
+     * really be immutable.
+     *
+     * @return string name of the component
+     */
+    public function getComponentName() {
+        if($this->componentName == null) {
+            throw new DomainException('Component has not redifined its name.');
+        }
+
+        return $this->componentName;
     }
 }

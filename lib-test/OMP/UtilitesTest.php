@@ -1,17 +1,16 @@
 <?php
-require_once('lib/Utilities.php');
 
-class UtilitiesTest extends PHPUnit_Framework_TestCase {
+class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @dataProvider dataProvider_splitOnNewlines
      */
     public function test_splitOnNewlines($raw, $expected, $shouldEqual) {
         if($shouldEqual) {
-            $this->assertEquals(Utilities::splitOnNewlines($raw), $expected);
+            $this->assertEquals(OMP_Utilities::splitOnNewlines($raw), $expected);
         }
         else {
-            $this->assertNotEquals(Utilities::splitOnNewlines($raw), $expected);
+            $this->assertNotEquals(OMP_Utilities::splitOnNewlines($raw), $expected);
         }
     }
 
@@ -46,10 +45,10 @@ class UtilitiesTest extends PHPUnit_Framework_TestCase {
      */
     public function test_unifyNewlines($raw, $expected, $shouldEqual) {
         if($shouldEqual) {
-            $this->assertEquals(Utilities::unifyNewlines($raw), $expected);
+            $this->assertEquals(OMP_Utilities::unifyNewlines($raw), $expected);
         }
         else {
-            $this->assertNotEquals(Utilities::unifyNewlines($raw), $expected);
+            $this->assertNotEquals(OMP_Utilities::unifyNewlines($raw), $expected);
         }
     }
 
@@ -80,10 +79,10 @@ class UtilitiesTest extends PHPUnit_Framework_TestCase {
     public function test_splitOnParagraphs($raw, $expected, $shouldEqual) {
 
         if($shouldEqual) {
-            $this->assertEquals(Utilities::splitOnParagraphs($raw), $expected);
+            $this->assertEquals(OMP_Utilities::splitOnParagraphs($raw), $expected);
         }
         else {
-            $this->assertNotEquals(Utilities::splitOnParagraphs($raw), $expected);
+            $this->assertNotEquals(OMP_Utilities::splitOnParagraphs($raw), $expected);
         }
     }
 

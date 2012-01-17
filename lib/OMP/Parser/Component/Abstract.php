@@ -1,5 +1,5 @@
 <?php
-abstract class ComponentParser_Abstract {
+abstract class OMP_Parser_Component_Abstract {
 
     private $componentName = null;
     private $rawText;

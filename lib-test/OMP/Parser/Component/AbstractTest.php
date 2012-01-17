@@ -1,7 +1,6 @@
 <?php
-require_once('lib/ComponentParser/Abstract.php');
 
-class ComponentParser_AbstractTest extends PHPUnit_Framework_TestCase {
+class OMP_Parser_Component_AbstractTest extends PHPUnit_Framework_TestCase {
 
     protected $stub;
 
@@ -9,14 +8,14 @@ class ComponentParser_AbstractTest extends PHPUnit_Framework_TestCase {
      * Need to create a stub, as ComponentParser_Abstract is an abstract class.
      */
     public function setUp() {
-        $this->stub = $this->getMockForAbstractClass('ComponentParser_Abstract');
+        $this->stub = $this->getMockForAbstractClass('OMP_Parser_Component_Abstract');
     }
 
     /**
      * @dataProvider dataProvider_parseSectionHeader_valid
      */
     public function test_parseSectionHeader_with_valid_data($original, $expected) {
-        $cooked = ComponentParser_Abstract::parseSectionHeader($original, false);
+        $cooked = OMP_Parser_Component_Abstract::parseSectionHeader($original, false);
         $this->assertEquals($cooked, $expected);
     }
     public function dataProvider_parseSectionHeader_valid() {
@@ -45,7 +44,7 @@ class ComponentParser_AbstractTest extends PHPUnit_Framework_TestCase {
      */
     public function test_parseSectionHeader_with_invalid_data($original, $exception) {
         $this->setexpectedexception($exception);
-        $cooked = ComponentParser_Abstract::parseSectionHeader($original, false);
+        $cooked = OMP_Parser_Component_Abstract::parseSectionHeader($original, false);
     }
     public function dataProvider_parseSectionHeader_invalid() {
         return array(

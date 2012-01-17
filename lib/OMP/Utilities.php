@@ -1,5 +1,5 @@
 <?php
-class Utilities {
+class OMP_Utilities {
 
     /**
      * Splits this supplied text into an array, with each element containing

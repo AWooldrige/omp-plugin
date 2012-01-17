@@ -14,8 +14,14 @@
     stopOnFailure="false"
     stopOnIncomplete="false"
     stopOnSkipped="false"
-    testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
     strict="false"
     verbose="false">
-<!-- ... -->
+
+    <testsuites>
+        <testsuite name="Libraries">
+            <directory>lib-test</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
+
+

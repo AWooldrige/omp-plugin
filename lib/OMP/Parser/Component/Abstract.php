@@ -69,8 +69,7 @@ abstract class OMP_Parser_Component_Abstract {
 
 
     /**
-     * Return the name of the component. There is no set method as this should
-     * really be immutable.
+     * Return the name of the component. I .e. 'ingredients'
      *
      * @return string name of the component
      */
@@ -80,5 +79,16 @@ abstract class OMP_Parser_Component_Abstract {
         }
 
         return $this->componentName;
+    }
+
+
+    /**
+     * Set the name of the component. I.e. 'ingredients'. This probably
+     * shouldn't exist, but it makes testing somewhat easier.
+     *
+     * @param name string name of the component
+     */
+    public function setComponentName($name) {
+        $this->componentName = $name;
     }
 }

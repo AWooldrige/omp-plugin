@@ -62,8 +62,20 @@ class OMP_Parser_Component_AbstractTest extends PHPUnit_Framework_TestCase {
     }
 
 
-    public function test_getComponentName() {
+    /**
+     * When the componentName hasn't been set, an exception should be raised
+     */
+    public function test_getComponentNameNotSet() {
         $this->setExpectedException('DomainException');
         $this->stub->getComponentName();
+    }
+
+    /**
+     * When the componentName has been set, no exception should be raised
+     */
+    public function test_getComponentNameSet() {
+        $name = 'test';
+        $this->stub->setComponentName($name);
+        $this->assertEquals($this->stub->getComponentName(), $name);
     }
 }

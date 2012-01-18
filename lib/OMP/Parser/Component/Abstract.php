@@ -3,12 +3,13 @@ abstract class OMP_Parser_Component_Abstract {
 
     private $componentName = null;
     private $rawText;
+    const SEP = '-';
 
     /**
      * Parses the supplied text, returned the post consumed text. Any
      * extracted data shouldn't be returned with this.
      *
-     * @param string $text recipe text to parse with ComponentParser
+     * @param string $text recipe text to parse with OMP_Parser_Component
      * @return string the post consumed text
      */
     abstract protected function parse($text);
@@ -16,7 +17,7 @@ abstract class OMP_Parser_Component_Abstract {
     /**
      * Set the raw text that the component will parse.
      *
-     * @param sting $text raw text to parse
+     * @param string $text raw text to parse
      */
     public function setRawText($text) {
         $this->rawText = $text;
@@ -26,7 +27,7 @@ abstract class OMP_Parser_Component_Abstract {
      * Get the raw text that the component will parse, or has parsed. The
      * parser won't touch the raw text.
      *
-     * @return sting $text raw text
+     * @return string $text raw text
      */
     public function getRawText() {
         return $this->rawText;

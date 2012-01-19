@@ -113,4 +113,4 @@ abstract class OMP_Parser_Component_Abstract {
     public function setComponentName($name) {
         $this->componentName = $name;
     }
-}sjdf
+}

@@ -3,6 +3,50 @@
 class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
 
     /**
+     * @dataProvider dataProvider_mergeOnNewlines
+     */
+    public function test_mergeOnNewlines($raw, $expected, $shouldEqual) {
+        if($shouldEqual) {
+            $this->assertEquals(OMP_Utilities::mergeOnNewlines($raw), $expected);
+        }
+        else {
+            $this->assertNotEquals(OMP_Utilities::mergeOnNewlines($raw), $expected);
+        }
+    }
+    public function dataProvider_mergeOnNewlines() {
+        return array(
+            //No newlines
+
+            //2 newlines
+
+            //3 newlines
+        );
+    }
+
+
+
+    /**
+     * @dataProvider dataProvider_mergeOnParagraphs
+     */
+    public function test_mergeOnParagraphs($raw, $expected, $shouldEqual) {
+
+        if($shouldEqual) {
+            $this->assertEquals(OMP_Utilities::mergeOnParagraphs($raw), $expected);
+        }
+        else {
+            $this->assertNotEquals(OMP_Utilities::mergeOnParagraphs($raw), $expected);
+        }
+    }
+
+    public function dataProvider_mergeOnParagraphs() {
+        return array(
+        );
+    }
+
+
+
+
+    /**
      * @dataProvider dataProvider_splitOnNewlines
      */
     public function test_splitOnNewlines($raw, $expected, $shouldEqual) {

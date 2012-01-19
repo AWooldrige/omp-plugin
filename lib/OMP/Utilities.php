@@ -40,4 +40,23 @@ class OMP_Utilities {
     public static function splitOnNewlines($raw) {
         return split(PHP_EOL, $raw);
     }
+
+    /**
+     * Convert array of lines back into plain text with new lines
+     *
+     * @param array $array array of new lines
+     * @return string merged into a string
+     */
+    public static function mergeOnNewlines($array) {
+    }
+
+    /**
+     * Convert an array of paragraphs back into plain text with double line
+     * breaks.
+     *
+     * @param array $array of paragraphs to merge
+     * @return string merged paragraphs
+     */
+    public static function mergeOnParagraphs($array) {
+    }
 }

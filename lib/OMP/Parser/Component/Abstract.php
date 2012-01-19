@@ -1,9 +1,12 @@
 <?php
 abstract class OMP_Parser_Component_Abstract {
 
-    private $componentName = null;
-    private $rawText;
     const SEP = '-';
+
+    private $componentName = null;
+    private $rawText = null;
+    private $postConsumedText = null;
+    private $parsedData = null;
 
     /**
      * Parses the supplied text, returned the post consumed text. Any
@@ -33,6 +36,24 @@ abstract class OMP_Parser_Component_Abstract {
         return $this->rawText;
     }
 
+    /**
+     * Get the post consumed text. I.e. The text that remains after the
+     * implemented component parsers consumed the text it is responsible for.
+     *
+     * @return string the post consumed text
+     */
+    public function getPostConsumedText() {
+        return $this->postConsumed;
+    }
+
+    /**
+     * Get the parsed data.
+     *
+     * @return string the parsed data
+     */
+    public function getParsedData() {
+        return $this->parsedData;
+    }
 
     /**
      * Examines the line given to determine if it is a header line. I.e.
@@ -92,4 +113,4 @@ abstract class OMP_Parser_Component_Abstract {
     public function setComponentName($name) {
         $this->componentName = $name;
     }
-}
+}sjdf

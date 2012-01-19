@@ -1,0 +1,20 @@
+{
+    "production" : {
+        "components" : [
+            "Ingredients",
+            "Method"
+        ]
+    },
+
+    "staging":{
+        "_extends": "production"
+    },
+
+    "testing":{
+        "_extends": "production"
+    },
+
+    "development":{
+        "_extends": "production"
+    }
+}

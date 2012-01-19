@@ -21,6 +21,8 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
     public function parse($text) {
 
     }
+
+
     /**
      * Parse ingredient line
      *

@@ -16,20 +16,37 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
     public function dataProvider_mergeOnNewlines() {
         return array(
             //No newlines
+            array(array("A lovely document with lots of character and class"),
+                  "A lovely document with lots of character and class",
+                  true),
 
             //2 newlines
+            array(array("A lovely document with ",
+                        "lots of character and class"),
+                  "A lovely document with ".PHP_EOL .
+                  "lots of character and class",
+                  true),
 
             //3 newlines
+            array(array("A lovely document with ",
+                        "lots of character ",
+                        "and class"),
+                  "A lovely document with ".PHP_EOL."lots of character ".
+                  PHP_EOL."and class",
+                  true),
+
+            //Test that one fails
+            array(array("A lovely document with lots of character and class"),
+                  "Wrong line",
+                  false)
         );
     }
-
 
 
     /**
      * @dataProvider dataProvider_mergeOnParagraphs
      */
     public function test_mergeOnParagraphs($raw, $expected, $shouldEqual) {
-
         if($shouldEqual) {
             $this->assertEquals(OMP_Utilities::mergeOnParagraphs($raw), $expected);
         }
@@ -40,9 +57,45 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
 
     public function dataProvider_mergeOnParagraphs() {
         return array(
+            //4 paragraphs, one with a section header and last with a line break
+            array(array('A lovely',
+                        '=== document === with',
+                        'lots of',
+                        "character".PHP_EOL." - and class"),
+                  "A lovely".PHP_EOL.PHP_EOL.
+                  "=== document === with".PHP_EOL.PHP_EOL.
+                  "lots of".PHP_EOL.PHP_EOL."character".PHP_EOL." - and class",
+                  true),
+
+            //Test that a test will fail, using a bad expected.
+            //In this case, only a linebreak was inserted where a paragraph
+            //should have been.
+            array(array("A lovely document with",
+                        " ",
+                        "lots of character and class"),
+                  "A lovely document with".PHP_EOL.' '.PHP_EOL.
+                  "lots of character and class",
+                  false),
+
+            //Only one paragraph
+            array(array("Test paragraph with one line"),
+                  "Test paragraph with one line",
+                  true),
+
+            //No paragraphs
+            array(array(),
+                  "",
+                  true),
+
+            //Multiline paragraphs
+            array(array("Test line one".PHP_EOL."Test line two.".PHP_EOL."last",
+                        "Anoter line one".PHP_EOL."Another line two"),
+                  "Test line one".PHP_EOL."Test line two.".PHP_EOL."last".
+                  PHP_EOL.PHP_EOL.
+                  "Anoter line one".PHP_EOL."Another line two",
+                  true)
         );
     }
-
 
 
 
@@ -79,7 +132,13 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
                   array("A lovely document with ",
                         "lots of character ",
                         "and class"),
-                  true)
+                  true),
+
+            //Make sure that a test fails
+            array("A lovely document with lots of character and class",
+                  array("A lovely document with lots of character and class",
+                        "Wrong line"),
+                  false),
         );
     }
 

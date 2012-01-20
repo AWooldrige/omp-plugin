@@ -44,19 +44,47 @@ class OMP_Utilities {
     /**
      * Convert array of lines back into plain text with new lines
      *
-     * @param array $array array of new lines
+     * @param array $lines array of new lines to merge
      * @return string merged into a string
      */
-    public static function mergeOnNewlines($array) {
+    public static function mergeOnNewlines($lines) {
+
+        $merged = '';
+        $first = true;
+
+        foreach($lines as $p) {
+            if(!$first) {
+                $merged .= PHP_EOL;
+            }
+
+            $first = false;
+            $merged .= $p;
+        }
+
+        return $merged;
     }
 
     /**
      * Convert an array of paragraphs back into plain text with double line
      * breaks.
      *
-     * @param array $array of paragraphs to merge
+     * @param array $paragraphs array of paragraphs to merge
      * @return string merged paragraphs
      */
-    public static function mergeOnParagraphs($array) {
+    public static function mergeOnParagraphs($paragraphs) {
+
+        $merged = '';
+        $first = true;
+
+        foreach($paragraphs as $p) {
+            if(!$first) {
+                $merged .= PHP_EOL . PHP_EOL;
+            }
+
+            $first = false;
+            $merged .= $p;
+        }
+
+        return $merged;
     }
 }

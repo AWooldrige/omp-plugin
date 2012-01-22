@@ -2,6 +2,7 @@
 
 class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
 
+    const SECTION_HEADER = ' Ingredients';
 
     /**
      * Constructor must set the name of the component
@@ -15,11 +16,28 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
      * Parse the ingredients sections of the supplied text
      *
      * @param text string text to be parsed with the OMP_Parser_
-     * @return string 
-     * TODO ^
+     * @return array the ingredients data extracted from the raw text
      */
     public function parse($text) {
+        $this->rawText = $text;
+        $paragraphs = OMP_Utilities::splitOnParagraphs($text);
+        foreach($paragraph as $p) {
+            $lines = OMP_Utilities::splitOnNewlines($p);
 
+            //Is the first line an Ingredients line?
+            try {
+                $sectionHeader = $this->parseSectionHeader($lines[0]);
+                if($sectionHeader['type'] !== SECTION_HEADER) {
+                    throw new InvalidArgumentException('The section header ' .
+                        'parsed does not match an ' . SECTION_HEADER .
+                        ' header.');
+                }
+            }
+            catch(Exception $e) {
+                $postConsumed[] = $p;
+                continue;
+            }
+        }
     }
 
 

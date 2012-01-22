@@ -73,31 +73,13 @@ class OMP_Parser_Component_IngredientsTest extends PHPUnit_Framework_TestCase {
     }
 
 
+    public function test_parse() {
+        //One plain ingredients section, no more text
 
-    /**
-     * INGREDIENTS PARAGRAPH  TESTS
-     */
+        //Two Ingredients sections, with more text
 
-    public function test_parseParagraph_with_valid() {
-        $original = '=== Ingredients for Test Dish ===' . PHP_EOL .
-                    'Test Ingredient - 2 cups - thinly sliced' . PHP_EOL .
-                    'Test - 4';
-        $expected = array(
-            'for' => 'Test Dish',
-            'items' => array(
-                array(
-                    'name' => 'Test Ingredient',
-                    'quantity' => '2 cups',
-                    'directive' => 'thinly sliced'),
-                array(
-                    'name' => 'Test',
-                    'quantity' => '4',
-                    'directive' => null)
-            )
-        );
+        //Test using full text from full-recipe.txt
 
-        $cooked = $this->component->parseParagraph($original);
-        $this->assertEquals($cooked, $expected);
     }
 
 }

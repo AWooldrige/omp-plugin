@@ -73,13 +73,114 @@ class OMP_Parser_Component_IngredientsTest extends PHPUnit_Framework_TestCase {
     }
 
 
-    public function test_parse() {
-        //One plain ingredients section, no more text
+    /**
+     * Testing the parse function. Quite a high level test, and it does test
+     * some already covered lower level components. Not sure of the best way
+     * to get round that.
+     *
+     * No content here should generate an exception, those need to go in the
+     * 'invalid_content' test for parse.
+     *
+     * @dataProvider dataProvider_parse_valid_content
+     */
+    public function test_parse_valid_content($original, $expectedData,
+                                             $expectedPostConsumed) {
+        //Check that the data parsed is correct
+        $this->assertEquals($this->component->parse($original),
+                            $expectedData);
 
-        //Two Ingredients sections, with more text
+        //Check that the postConsumedText is correct
+        $this->assertEquals($this->component->getPostConsumedText(),
+                            $expectedPostConsumedText);
+    }
+    public function dataProvider_parse_valid_content() {
 
-        //Test using full text from full-recipe.txt
+        $t1 = array();
 
+        $t1[] = <<<RECIPE
+=== Ingredients ===
+Ingr 1 - 15 cups
+Ingr 2 - 5 g - evenly sliced
+
+=== Ingredients for Component ===
+Test Ingredient
+Ingredient One - 5.2 kg (or 1 cup)
+Ingredient Two - 678 ml - or substitue for fresh
+RECIPE;
+
+
+        $t1[] = array(
+                    'default' => array(
+                        array(
+                            'name' => 'Ingr 1',
+                            'quantity' => '15 cups',
+                            'directive'=> null
+                        ),
+                        array(
+                            'name' => 'Ingr 2',
+                            'quantity' => '5 g',
+                            'directive'=> 'evenly sliced'
+                        ),
+                    ),
+                    'Component' => array(
+                        array(
+                            'name' => 'Test Ingredient',
+                            'quantity' => null,
+                            'directive'=> null
+                        ),
+                        array(
+                            'name' => 'Ingredient One',
+                            'quantity' => '5.2 kg (or 1 cup)',
+                            'directive'=> null
+                        ),
+                        array(
+                            'name' => 'Ingredient Two',
+                            'quantity' => '678 ml',
+                            'directive'=> 'or substitute for fresh'
+                        ),
+                    ),
+                    true
+                );
+
+            $t1[] = "";
+
+            //Two Ingredients sections, with more text
+
+            //Test using full text from full-recipe.txt
+
+            //Two section headers with the same name
+
+            //Two section headers with default
+
+
+        return array($t1);
     }
 
+
+
+    /**
+     * @dataProvider dataProvider_parse_invalid_content
+    public function test_parse_invalid_content($original, $exception) {
+        $this->setexpectedexception($exception);
+        $cooked = $this->component->parse($original);
+    }
+    public function dataProvider_parse_invalid_content() {
+        return array(
+            //There shouldn't be able to be two section headers
+            array(
+                <<<RECIPE
+=== Ingredients ===
+Ingr 1 - 15 cups
+Ingr 2 - 5 g - evenly sliced
+
+=== Ingredients ===
+Test Ingredient
+Ingredient One - 5.2 kg (or 1 cup)
+Ingredient Two - 678 ml - or substitue for fresh
+                RECIPE,
+                    'InvalidArgumentHeader'
+                );
+        );
+    }
+     */
 }

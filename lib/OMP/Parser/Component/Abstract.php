@@ -9,11 +9,12 @@ abstract class OMP_Parser_Component_Abstract {
     private $parsedData = null;
 
     /**
-     * Parses the supplied text, returned the post consumed text. Any
-     * extracted data shouldn't be returned with this.
+     * Parses the supplied text, returning any extracted data. Text left
+     * over that was not consumed by the parse is available from:
+     * getPostconsumedText()
      *
      * @param string $text recipe text to parse with OMP_Parser_Component
-     * @return string the post consumed text
+     * @return array the data extracted from the parsing
      */
     abstract protected function parse($text);
 

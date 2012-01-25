@@ -44,7 +44,7 @@ abstract class OMP_Parser_Component_Abstract {
      * @return string the post consumed text
      */
     public function getPostConsumedText() {
-        return $this->postConsumed;
+        return $this->postConsumedText;
     }
 
     /**
@@ -87,7 +87,7 @@ abstract class OMP_Parser_Component_Abstract {
         }
 
         //If we're at this point, it didn't match any
-        throw new InvalidArgumentException('Line provided does not match a header line');
+        throw new InvalidArgumentException('Line provided does not match a header line: ' . $header);
     }
 
 

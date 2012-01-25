@@ -2,7 +2,7 @@
 
 class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
 
-    const SECTION_HEADER = ' Ingredients';
+    const SECTION_HEADER = 'Ingredients';
 
     /**
      * Constructor must set the name of the component
@@ -23,31 +23,34 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
 
         $paragraphs = OMP_Utilities::splitOnParagraphs($text);
 
-        $this->parsedData = array();
-
         //Go over each paragraph in the text provided
         foreach($paragraphs as $p) {
             $lines = OMP_Utilities::splitOnNewlines($p);
-
 
             //Is the first line an Ingredients line? parseSectionHeader throws
             //an exception if not a valid sectionHeaderLine
             try {
                 $sectionHeader = $this->parseSectionHeader($lines[0]);
 
-                if($sectionHeader['type'] !== SECTION_HEADER) {
-                    throw new InvalidArgumentException('Section Header does not match an Ingredients Header');
+                if($sectionHeader['type'] != self::SECTION_HEADER) {
+                    throw new InvalidArgumentException('Section Header does not match an Ingredients Header. Looking for: '.self::SECTION_HEADER.' in line: ' . $lines[0]);
                 }
             }
             catch(InvalidArgumentException $e) {
                 $postConsumed[] = $p;
-                continue;
+                break;
             }
 
             //Can assume at this point that this paragraph is an attempt at
             //an ingredients paragraph
-
+            $ingredients = array();
+            for($i=1; $i<count($lines); $i++) {
+                $ingredients[] = $this->parseLine($lines[$i]);
+            }
+            $this->appendParsedData($sectionHeader['for'], $ingredients);
         }
+
+        return $this->getParsedData();
     }
 
 

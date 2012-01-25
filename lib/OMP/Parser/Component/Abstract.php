@@ -3,10 +3,10 @@ abstract class OMP_Parser_Component_Abstract {
 
     const SEP = '-';
 
-    private $componentName = null;
-    private $rawText = null;
-    private $postConsumedText = null;
-    private $parsedData = null;
+    protected $componentName = null;
+    protected $rawText = null;
+    protected $postConsumedText = null;
+    protected $parsedData = array();
 
     /**
      * Parses the supplied text, returning any extracted data. Text left

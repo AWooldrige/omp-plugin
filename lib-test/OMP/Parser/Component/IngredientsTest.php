@@ -159,28 +159,92 @@ RECIPE;
 
 
     /**
-     * @dataProvider dataProvider_parse_invalid_content
-    public function test_parse_invalid_content($original, $exception) {
-        $this->setexpectedexception($exception);
-        $cooked = $this->component->parse($original);
-    }
-    public function dataProvider_parse_invalid_content() {
-        return array(
-            //There shouldn't be able to be two section headers
-            array(
-                <<<RECIPE
-=== Ingredients ===
-Ingr 1 - 15 cups
-Ingr 2 - 5 g - evenly sliced
-
-=== Ingredients ===
-Test Ingredient
-Ingredient One - 5.2 kg (or 1 cup)
-Ingredient Two - 678 ml - or substitue for fresh
-                RECIPE,
-                    'InvalidArgumentHeader'
-                );
-        );
-    }
+     * Valid case test with:
+     *  - one entry for component - null
      */
+    public function test_appendParsedData_with_1default() {
+        //Add a default entry
+        $this->component->appendParsedData(null, array(array()));
+
+
+        //Expected parsedData array
+        $expected = array(
+            '_' => array(array())
+        );
+
+        $this->assertEquals($this->component->getParsedData(), $expected);
+    }
+    /**
+     * Valid case test with:
+     *  - one entry for component - null
+     *  - one entry for component - dish1
+     */
+    public function test_appendParsedData_with_1default_and_1custom() {
+        //Add a default entry
+        $this->component->appendParsedData(null, array(array()));
+
+        //Add a custom entry
+        $this->component->appendParsedData('dish1', array(array()));
+
+
+        //Expected parsedData array
+        $expected = array(
+            '_' => array(array()),
+            'dish1' => array(array())
+        );
+        $this->assertEquals($this->component->getParsedData(), $expected);
+    }
+    /**
+     * Valid case test with:
+     *  - one entry for component - null
+     *  - one entry for component - dish1
+     *  - one entry for component - dish2
+     */
+    public function test_appendParsedData_with_1default_and_2custom() {
+        //Add a default entry
+        $this->component->appendParsedData(null, array(array()));
+
+        //Add a custom entry
+        $this->component->appendParsedData('dish1', array(array()));
+
+        //Add a custom entry
+        $this->component->appendParsedData('dish2', array(array()));
+
+        //Expected parsedData array
+        $expected = array(
+            '_' => array(array()),
+            'dish1' => array(array()),
+            'dish2' => array(array())
+        );
+        $this->assertEquals($this->component->getParsedData(), $expected);
+    }
+    /**
+     * Invalid case test with:
+     *  - two entries for component - null
+     *  - one entry for component - dish1
+     */
+    public function test_appendParsedData_with_2default() {
+
+        $this->setexpectedexception('InvalidArgumentException');
+
+        //Add 2 default entries
+        $this->component->appendParsedData(null, array(array()));
+        $this->component->appendParsedData(null, array(array()));
+    }
+    /**
+     * Invalid case test with:
+     *  - one entry for component - null
+     *  - two entries for component - dish1
+     */
+    public function test_appendParsedData_with_1default_2custom() {
+
+        $this->setexpectedexception('InvalidArgumentException');
+
+        //Add 1 default entriy
+        $this->component->appendParsedData(null, array(array()));
+
+        //Add two custom entries
+        $this->component->appendParsedData('dish1', array(array()));
+        $this->component->appendParsedData('dish1', array(array()));
+    }
 }

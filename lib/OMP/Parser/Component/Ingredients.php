@@ -20,23 +20,33 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
      */
     public function parse($text) {
         $this->rawText = $text;
+
         $paragraphs = OMP_Utilities::splitOnParagraphs($text);
-        foreach($paragraph as $p) {
+
+        $this->parsedData = array();
+
+        //Go over each paragraph in the text provided
+        foreach($paragraphs as $p) {
             $lines = OMP_Utilities::splitOnNewlines($p);
 
-            //Is the first line an Ingredients line?
+
+            //Is the first line an Ingredients line? parseSectionHeader throws
+            //an exception if not a valid sectionHeaderLine
             try {
                 $sectionHeader = $this->parseSectionHeader($lines[0]);
+
                 if($sectionHeader['type'] !== SECTION_HEADER) {
-                    throw new InvalidArgumentException('The section header ' .
-                        'parsed does not match an ' . SECTION_HEADER .
-                        ' header.');
+                    throw new InvalidArgumentException('Section Header does not match an Ingredients Header');
                 }
             }
-            catch(Exception $e) {
+            catch(InvalidArgumentException $e) {
                 $postConsumed[] = $p;
                 continue;
             }
+
+            //Can assume at this point that this paragraph is an attempt at
+            //an ingredients paragraph
+
         }
     }
 
@@ -68,33 +78,24 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
     }
 
 
-
     /**
-     * Parse a whole ingredients paragraph
+     * Add entry to parsedData. This checks to make that an entry with that
+     * name doesn't already exist. A null value for the $for parameter will
+     * be converted to the string '_'.
      *
-     * @param string $paragraph paragraph to parse
-     * @return array the ingredients array
+     * @param $component string specified by the for construct
+     * @param $ingredients array list of ingredients
      */
-    public function parseParagraph($paragraph) {
-        $entry = array();
-
-        $lines = explode(PHP_EOL, $paragraph);
-        $headData = self::parseSectionHeader($lines[0]);
-
-        if($headData['type'] == 'Ingredients') {
-            $entry['for'] = ($headData['for'] == null) ? '_' : $headData['for'];
-            $entry['items'] = array();
-
-            for($i=1; $i<count($lines); $i++) {
-                $entry['items'][] = $this->parseLine($lines[$i]);
-            }
-
-            return $entry;
+    public function appendParsedData($component, $ingredients) {
+        if($component == null) {
+            $component = '_';
         }
-        else {
-            throw new InvalidArgumentException('Paragraph provided does ' .
-                'not appear to be an ingredients paragraph. First line: ' .
-                $line);
+
+        if(array_key_exists($component, $this->parsedData)) {
+            throw new InvalidArgumentException('Two Ingredients sections ' .
+                'for the same "'.$component.' component have been specified');
         }
+
+        $this->parsedData[$component] = $ingredients;
     }
 }

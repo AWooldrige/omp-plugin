@@ -110,7 +110,6 @@ Ingredient One - 5.2 kg (or 1 cup)
 Ingredient Two - 678 ml - or substitute for fresh
 RECIPE;
 
-
         $t[1] = array(
             '_' => array(
                 array(
@@ -145,13 +144,135 @@ RECIPE;
 
         $t[2] = "";
 
+        $toReturn[] = $t;
+
             //Two Ingredients sections, with more text
+        $t[0] = <<<RECIPE
+Some example more text, spanning over:
 
-            //Test using full text from full-recipe.txt
+Multiple paragraphs
 
-            //Two section headers with the same name
+=== Ingredients ===
+Ingr 1 - 15 cups
+Ingr 2 - 5 g - evenly sliced
 
-            //Two section headers with default
+=== Ingredients for Component ===
+Test Ingredient
+Ingredient One - 5.2 kg (or 1 cup)
+Ingredient Two - 678 ml - or substitute for fresh
+RECIPE;
+        $t[1] = array(
+            '_' => array(
+                array(
+                    'name' => 'Ingr 1',
+                    'quantity' => '15 cups',
+                    'directive'=> null
+                ),
+                array(
+                    'name' => 'Ingr 2',
+                    'quantity' => '5 g',
+                    'directive'=> 'evenly sliced'
+                ),
+            ),
+            'Component' => array(
+                array(
+                    'name' => 'Test Ingredient',
+                    'quantity' => null,
+                    'directive'=> null
+                ),
+                array(
+                    'name' => 'Ingredient One',
+                    'quantity' => '5.2 kg (or 1 cup)',
+                    'directive'=> null
+                ),
+                array(
+                    'name' => 'Ingredient Two',
+                    'quantity' => '678 ml',
+                    'directive'=> 'or substitute for fresh'
+                ),
+            )
+        );
+
+        $t[2] = <<<POSTCONSUMED
+Some example more text, spanning over:
+
+Multiple paragraphs
+POSTCONSUMED;
+
+        $toReturn[] = $t;
+
+
+
+        /**
+         * Include section headers with different values
+         */
+        $t[0] = <<<RECIPE
+Some example more text, spanning over:
+
+Multiple paragraphs
+
+=== Ingredients ===
+Ingr 1 - 15 cups
+Ingr 2 - 5 g - evenly sliced
+
+=== Ingredients for Component ===
+Test Ingredient
+Ingredient One - 5.2 kg (or 1 cup)
+Ingredient Two - 678 ml - or substitute for fresh
+
+=== Other ===
+Random text
+over multiple lines
+
+=== Random for No Reason ===
+More dull text over multiple
+lines
+RECIPE;
+        $t[1] = array(
+            '_' => array(
+                array(
+                    'name' => 'Ingr 1',
+                    'quantity' => '15 cups',
+                    'directive'=> null
+                ),
+                array(
+                    'name' => 'Ingr 2',
+                    'quantity' => '5 g',
+                    'directive'=> 'evenly sliced'
+                ),
+            ),
+            'Component' => array(
+                array(
+                    'name' => 'Test Ingredient',
+                    'quantity' => null,
+                    'directive'=> null
+                ),
+                array(
+                    'name' => 'Ingredient One',
+                    'quantity' => '5.2 kg (or 1 cup)',
+                    'directive'=> null
+                ),
+                array(
+                    'name' => 'Ingredient Two',
+                    'quantity' => '678 ml',
+                    'directive'=> 'or substitute for fresh'
+                ),
+            )
+        );
+
+        $t[2] = <<<POSTCONSUMED
+Some example more text, spanning over:
+
+Multiple paragraphs
+
+=== Other ===
+Random text
+over multiple lines
+
+=== Random for No Reason ===
+More dull text over multiple
+lines
+POSTCONSUMED;
 
         $toReturn[] = $t;
 

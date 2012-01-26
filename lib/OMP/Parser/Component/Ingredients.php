@@ -37,8 +37,8 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
                 }
             }
             catch(InvalidArgumentException $e) {
-                $postConsumed[] = $p;
-                break;
+                $this->postConsumed[] = $p;
+                continue;
             }
 
             //Can assume at this point that this paragraph is an attempt at

@@ -5,7 +5,7 @@ abstract class OMP_Parser_Component_Abstract {
 
     protected $componentName = null;
     protected $rawText = null;
-    protected $postConsumedText = null;
+    protected $postConsumed = array();
     protected $parsedData = array();
 
     /**
@@ -44,7 +44,7 @@ abstract class OMP_Parser_Component_Abstract {
      * @return string the post consumed text
      */
     public function getPostConsumedText() {
-        return $this->postConsumedText;
+        return OMP_Utilities::mergeOnParagraphs($this->postConsumed);
     }
 
     /**

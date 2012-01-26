@@ -95,9 +95,11 @@ class OMP_Parser_Component_IngredientsTest extends PHPUnit_Framework_TestCase {
     }
     public function dataProvider_parse_valid_content() {
 
-        $t1 = array();
+        $toReturn = array();
+        $t = array();
 
-        $t1[] = <<<RECIPE
+
+        $t[0] = <<<RECIPE
 === Ingredients ===
 Ingr 1 - 15 cups
 Ingr 2 - 5 g - evenly sliced
@@ -109,7 +111,7 @@ Ingredient Two - 678 ml - or substitute for fresh
 RECIPE;
 
 
-        $t1[] = array(
+        $t[1] = array(
             '_' => array(
                 array(
                     'name' => 'Ingr 1',
@@ -141,7 +143,7 @@ RECIPE;
             )
         );
 
-        $t1[] = "";
+        $t[2] = "";
 
             //Two Ingredients sections, with more text
 
@@ -151,8 +153,9 @@ RECIPE;
 
             //Two section headers with default
 
+        $toReturn[] = $t;
 
-        return array($t1);
+        return $toReturn;
     }
 
 

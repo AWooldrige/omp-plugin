@@ -12,6 +12,40 @@ class OMP_Parser_Component_AbstractTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Test the rawText getters and setters
+     */
+    public function test_getRawText() {
+        $rawText = <<<RAWTEXT
+This is some raw text, over
+multiple lines with spaces and
+
+    indents with punctuation: $,.()*!"&~|?
+RAWTEXT;
+
+        $this->stub->setRawText($rawText);
+        $this->assertEquals($rawText,
+                            $this->stub->getRawText());
+    }
+
+    /**
+     * When the componentName hasn't been set, an exception should be raised
+     */
+    public function test_getComponentNameNotSet() {
+        $this->setExpectedException('DomainException');
+        $this->stub->getComponentName();
+    }
+
+    /**
+     * When the componentName has been set, no exception should be raised
+     */
+    public function test_getComponentNameSet() {
+        $name = 'test';
+        $this->stub->setComponentName($name);
+        $this->assertEquals($this->stub->getComponentName(), $name);
+    }
+
+
+    /**
      * @dataProvider dataProvider_parseSectionHeader_valid
      */
     public function test_parseSectionHeader_with_valid_data($original, $expected) {
@@ -62,20 +96,4 @@ class OMP_Parser_Component_AbstractTest extends PHPUnit_Framework_TestCase {
     }
 
 
-    /**
-     * When the componentName hasn't been set, an exception should be raised
-     */
-    public function test_getComponentNameNotSet() {
-        $this->setExpectedException('DomainException');
-        $this->stub->getComponentName();
-    }
-
-    /**
-     * When the componentName has been set, no exception should be raised
-     */
-    public function test_getComponentNameSet() {
-        $name = 'test';
-        $this->stub->setComponentName($name);
-        $this->assertEquals($this->stub->getComponentName(), $name);
-    }
 }

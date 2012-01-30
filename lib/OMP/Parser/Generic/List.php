@@ -15,8 +15,12 @@ class OMP_Parser_Generic_List {
      * @param string $list optionally specify a the list text to parse
      * @param string $itemIdent optionally specify item identifier
      */
-    public function __construct($list = null, $itemIdent = null) {
+    public function __construct($rawText = null, $itemSpecifier = null) {
+        if($rawText !== null)
+            $this->setRawText($rawText);
 
+        if($itemSpecifier !== null)
+            $this->setItemSpecifier($itemSpecifier);
     }
 
     /**

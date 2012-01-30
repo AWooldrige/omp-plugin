@@ -17,13 +17,13 @@ class OMP_Parser_Generic_ListTest extends PHPUnit_Framework_TestCase {
      * Test the rawText getters and setters
      */
     public function test_rawText_getter_and_setter() {
-        $exampleText = <<<TEXT
+        $rawText = <<<TEXT
 This is a little test text over
         multiple lines, and with horrible indents
 TEXT;
 
-        $this->stub->setRawText($exampleText);
-        $this->assertEquals($exampleText,
+        $this->stub->setRawText($rawText);
+        $this->assertEquals($rawText,
                             $this->stub->getRawText());
     }
 
@@ -32,13 +32,22 @@ TEXT;
      * Test the itemSpecifier getters and setters
      */
     public function test_itemSpecifier_getter_and_setter() {
-        $exampleText = <<<TEXT
-This is a little test text over
-        multiple lines, and with horrible indents
-TEXT;
+        $itemSpecifier = '-';
 
-        $this->stub->setItemSpecifier($exampleText);
-        $this->assertEquals($exampleText,
+        $this->stub->setItemSpecifier($itemSpecifier);
+        $this->assertEquals($itemSpecifier,
                             $this->stub->getItemSpecifier());
+    }
+
+    /**
+     * Test the constructor setters
+     */
+    public function test_constructor() {
+        $throwaway = new OMP_Parser_Generic_List('Some text', '-');
+
+        $this->assertNotNull($throwaway->getRawText(),
+                             'Constructor did not set rawText correctly');
+        $this->assertNotNull($throwaway->getItemSpecifier(),
+                             'Constructor did not set itemSpecifier correctly');
     }
 }

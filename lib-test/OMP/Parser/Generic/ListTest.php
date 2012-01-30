@@ -50,4 +50,122 @@ TEXT;
         $this->assertNotNull($throwaway->getItemSpecifier(),
                              'Constructor did not set itemSpecifier correctly');
     }
+
+
+
+    /**
+     * Test the overall functionality of the parser. Provide multiple valid
+     * rawText examples, and ensure the output is correct.
+     *
+     * @dataProvider dataProvider_parse_valid
+     */
+    public function test_parse($rawText, $itemIdentifier, $expected, $match) {
+        $this->stub->setRawText($rawText);
+        $this->stub->setItemSpecifier($itemIdentifier);
+
+        $this->assertEquals($expected, $this->stub->parse());
+    }
+    public function dataProvider_parse_valid() {
+        $returnArray = array();
+        $t = array();
+
+        //First test involving short item list, 3 nesting levels
+        $t[0] = <<<LIST
+- Item 1
+- Item 2
+    - Subitem 1
+    - Subitem 2
+    - Subitem 3
+        - Subsubitem 1
+        - Subsubitem 2
+- Item 4
+    - Subitem 1
+LIST;
+        $t[1] = '-';
+        $t[2] = array(
+            array(
+                'item'      => 'Item 1',
+                'subitems'  => null
+            ),
+            array(
+                'item'      => 'Item 2',
+                'subitems'  => array(
+                    array(
+                        'item'      => 'Subitem 1',
+                        'subitems'  => null
+                    ),
+                    array(
+                        'item'      => 'Subitem 2',
+                        'subitems'  => null
+                    ),
+                    array(
+                        'item'      => 'Subitem 3',
+                        'subitems'  => array(
+                            array(
+                                'item'      => 'Subsubitem 1',
+                                'subitems'  => null
+                            ),
+                            array(
+                                'item'      => 'Subsubitem 2',
+                                'subitems'  => null
+                            )
+                        )
+                    )
+                )
+            ),
+            array(
+                'item'      => 'Item 4',
+                'subitems'  => array(
+                    array(
+                        'item'      => 'Subitem 1',
+                        'subitems'  => null
+                    )
+                )
+            )
+        );
+        $t[3] = true;
+        $returnArray[] = $t;
+
+
+        //Make sure things can cope with multi line items, and inline dashes
+        $t[0] = <<<LIST
+- Item 1
+    - This subitem needs to span multiple lines, with linebreaks inbetween
+      that have been put in manually. Also make sure that inline - dashes
+      don't cause a fuss!'
+    - Subitem 2
+- Another item thats spanning over
+multiple lines, but without proper alignment
+    - Subitem 1
+LIST;
+        $t[1] = '-';
+        $t[2] = array(
+            array(
+                'item'      => 'Item 1',
+                'subitems'  => array(
+                    array(
+                        'item'      => "This subitem needs to span multiple lines, with linebreaks inbetween that have been put in manually. Also make sure that inline - dashes don't cause a fuss!'",
+                        'subitems'  => null
+                    ),
+                    array(
+                        'item'      => 'Subitem 2',
+                        'subitems'  => null
+                    )
+                )
+            ),
+            array(
+                'item'      => 'Another item thats spanning over multiple lines, but without proper alignment',
+                'subitems'  => array(
+                    array(
+                        'item'      => 'Subitem 1',
+                        'subitems'  => null
+                    )
+                )
+            )
+        );
+        $t[3] = true;
+        $returnArray[] = $t;
+        return $returnArray;
+    }
+
 }

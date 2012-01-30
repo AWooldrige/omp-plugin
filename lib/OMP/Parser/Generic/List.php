@@ -68,6 +68,20 @@ class OMP_Parser_Generic_List {
         return $this->itemSpecifier;
     }
 
+    /**
+     * Parse the text provided, either by parameter or what is in rawText.
+     *
+     * @param string $rawText raw text to parse
+     * @param string $itemSpecifier the item specifier
+     * @return array the extracted data
+     */
+    public function parse($rawText = null, $itemSpecifier = null) {
+        if($rawText !== null)
+            $this->setRawText($rawText);
 
+        if($itemSpecifier !== null)
+            $this->setItemSpecifier($itemSpecifier);
 
+        return array();
+    }
 }

@@ -1,6 +1,43 @@
 <?php
-
+/**
+ * Generic List Parser
+ *
+ * Parses a markdown style list into PHP array.
+ */
 class OMP_Parser_Generic_List {
+
+    private $rawText = null;
+    private $itemIdent = null;
+
+    /**
+     * Constructor
+     *
+     * @param string $list optionally specify a the list text to parse
+     * @param string $itemIdent optionally specify item identifier
+     */
+    public function __construct($list = null, $itemIdent = null) {
+
+    }
+
+    /**
+     * Set the raw text for the parser to use
+     *
+     * @param string $rawText the raw text to parse
+     */
+    public function setRawText($rawText) {
+        $this->rawText = $rawText;
+    }
+
+    /**
+     * Get the raw text that the parser used (it won't have been modified
+     * by the parser in any way).
+     *
+     * @return string the raw text
+     */
+    public function getRawText() {
+        return $this->rawText;
+    }
+
 
 
 }

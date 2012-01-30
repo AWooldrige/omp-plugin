@@ -7,7 +7,7 @@
 class OMP_Parser_Generic_List {
 
     private $rawText = null;
-    private $itemIdent = null;
+    private $itemSpecifier = null;
 
     /**
      * Constructor
@@ -27,7 +27,6 @@ class OMP_Parser_Generic_List {
     public function setRawText($rawText) {
         $this->rawText = $rawText;
     }
-
     /**
      * Get the raw text that the parser used (it won't have been modified
      * by the parser in any way).
@@ -36,6 +35,33 @@ class OMP_Parser_Generic_List {
      */
     public function getRawText() {
         return $this->rawText;
+    }
+
+    /**
+     * Get the item specifier
+     *
+     * The item specifier is used to specify an item in the list. E.g.
+     *  - Item 1
+     *  - Item 2
+     * Where the specifier is -
+     *
+     * @param string $itemSpecifier the item specifier
+     */
+    public function setItemSpecifier($itemSpecifier) {
+        $this->itemSpecifier = $itemSpecifier;
+    }
+    /**
+     * Get the item specifier
+     *
+     * The item specifier is used to specify an item in the list. E.g.
+     *  - Item 1
+     *  - Item 2
+     * Where the specifier is -
+     *
+     * @return string the raw text
+     */
+    public function getItemSpecifier() {
+        return $this->itemSpecifier;
     }
 
 

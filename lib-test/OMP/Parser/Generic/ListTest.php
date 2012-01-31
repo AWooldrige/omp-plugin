@@ -168,4 +168,102 @@ LIST;
         return $returnArray;
     }
 
+
+    /**
+     * Test the parseLine function
+     *
+     * @dataProvider dataProvider_parseLine_valid
+     */
+    public function test_parseLine_with_valid($rawLine,
+                                              $itemSpecifier,
+                                              $expectedLineType,
+                                              $expectedSpecifierIdentLevel,
+                                              $expectedContent,
+                                              $shouldMatch = true) {
+
+        $result = $this->stub->parseLine($rawLine, $itemSpecifier);
+        $expected = array(
+            'lineType'             => $expectedLineType,
+            'specifierIndentLevel' => $expectedSpecifierIdentLevel,
+            'content'              => $expectedContent
+        );
+
+        if($shouldMatch) {
+            $this->assertEquals($expected,
+                                $this->stub->parseLine($rawLine, $itemSpecifier));
+        }
+        else{
+            $this->assertEquals($expected,
+                                $this->stub->parseLine($rawLine, $itemSpecifier));
+        }
+
+    }
+    public function dataProvider_parseLine_valid() {
+        return array(
+            array(
+                '- Test new item with no indent',
+                '-',
+                'new',
+                0,
+                'Test new item with no indent',
+                true
+            ),
+            array(
+                ' - Test new item with 1 indent',
+                '-',
+                'new',
+                1,
+                'Test new item with 1 indent',
+                true
+            ),
+            array(
+                '    - Test new item with 4 indent',
+                '-',
+                'new',
+                4,
+                'Test new item with 4 indent',
+                true
+            ),
+            array(
+                'Non indented continuation line.',
+                '-',
+                'continuation',
+                0,
+                'Non indented continuation line.',
+                true
+            ),
+            array(
+                '         Indented continuation line.',
+                '-',
+                'continuation',
+                9,
+                'Indented continuation line.',
+                true
+            ),
+            array(
+                '  Indented - continuation line with inline specifier.',
+                '-',
+                'continuation',
+                2,
+                'Indented - continuation line with inline specifier.',
+                true
+            ),
+            array(
+                ' - Indented new item: with inline specifier - and punctuation',
+                '-',
+                'new',
+                1,
+                'Indented new item: with inline specifier - and punctuation',
+                true
+            ),
+            array(
+                '  ** Indented new item with double character specifier',
+                '**',
+                'new',
+                2,
+                'Indented new item with double character specifier',
+                true
+            ),
+        );
+    }
 }

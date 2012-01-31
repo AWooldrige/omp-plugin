@@ -82,6 +82,38 @@ class OMP_Parser_Generic_List {
         if($itemSpecifier !== null)
             $this->setItemSpecifier($itemSpecifier);
 
+
         return array();
     }
+
+    /**
+     * Parse an item line, return an array of the following schema
+     *
+     * array(
+     *      //Start of new bullet, or continuing text from the last?
+     *     'lineType'             => ('new'|'continuation'),
+     *
+     *      //No. spaces that the first character is indented by
+     *     'specifierIndentLevel' => (null|(0:INF)),
+     *
+     *       //Raw Content of the line
+     *     'content'              => (null|string)
+     * );
+     *
+     *  - This line would produce the following:
+     *
+     * array(
+     *     'lineType'             => 'new',
+     *     'specifierIndentLevel' => 1,
+     *     'content'              => 'This line would produce the following:'
+     * );
+     *
+     * @param string $rawLine the raw line to parse for information
+     * @param string $itemSpecifier the item specifier
+     * @return array the information array specified above
+     */
+    public function parseLine($rawLine = null, $itemSpecifier = null) {
+        return array();
+    }
+
 }

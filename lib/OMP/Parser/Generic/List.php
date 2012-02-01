@@ -113,7 +113,65 @@ class OMP_Parser_Generic_List {
      * @return array the information array specified above
      */
     public function parseLine($rawLine = null, $itemSpecifier = null) {
-        return array();
+        if(strlen($itemSpecifier) > 1) {
+            throw new InvalidArgumentException('The itemSpecifier cannot be more than one character: ' . $itemSpecifier);
+        }
+
+        //Avoiding the regex!
+
+        //Go through each character from the start
+        for($i = 0; $i < strlen($rawLine); $i++) {
+
+            //Local copy, for ease
+            $c = $rawLine[$i];
+
+            //If it is whitespace (tab or space)
+            if(ctype_space($c) == true) {
+                echo '$c at the whitespace check: ' . $c;
+                //increment indent counter, continue
+                continue;
+            }
+
+            //is it item specifier?
+            //THIS ISN'T WORKING
+            echo '$c = ' . $c;
+            echo '$itemSpecifier = ' .$itemSpecifier;
+            if($c == $itemSpecifier) {
+
+                //trim the rest of the string
+                $rt = trim(substr($rawLine, $i+1, strlen($rawLine)));
+
+                //if the strlen is < 0, exception
+                if(strlen($rt) < 1) {
+                    throw new InvalidArgumentException('Could not process line, it appers to be empty: ' . $rawLine);
+                }
+
+                return array(
+                    'lineType'             => 'new',
+                    'specifierIndentLevel' => $i,
+                    'content'              => $rt
+                );
+            }
+
+            //trim the whole string
+            $rt = trim($rawLine);
+
+            //if the strlen is < 0, exception
+            if(strlen($rt) < 1) {
+                throw new InvalidArgumentException('Could not process line, it appers to be empty: ' . $rawLine);
+            }
+
+            return array(
+                'lineType'             => 'continuation',
+                'specifierIndentLevel' => null,
+                'content'              => $rt
+            );
+        }
+
+        //exception
+        throw new InvalidArgumentException('Could not process line, it appers to be empty: ' . $rawLine);
+        return null;
     }
+
 
 }

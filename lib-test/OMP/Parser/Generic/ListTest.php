@@ -170,7 +170,7 @@ LIST;
 
 
     /**
-     * Test the parseLine function
+     * Test the parseLine function with valid data.
      *
      * @dataProvider dataProvider_parseLine_valid
      */
@@ -228,7 +228,7 @@ LIST;
                 'Non indented continuation line.',
                 '-',
                 'continuation',
-                0,
+                null,
                 'Non indented continuation line.',
                 true
             ),
@@ -236,7 +236,7 @@ LIST;
                 '         Indented continuation line.',
                 '-',
                 'continuation',
-                9,
+                null,
                 'Indented continuation line.',
                 true
             ),
@@ -244,7 +244,7 @@ LIST;
                 '  Indented - continuation line with inline specifier.',
                 '-',
                 'continuation',
-                2,
+                null,
                 'Indented - continuation line with inline specifier.',
                 true
             ),
@@ -255,15 +255,32 @@ LIST;
                 1,
                 'Indented new item: with inline specifier - and punctuation',
                 true
-            ),
-            array(
-                '  ** Indented new item with double character specifier',
-                '**',
-                'new',
-                2,
-                'Indented new item with double character specifier',
-                true
-            ),
+            )
+        );
+
+    }
+
+
+    /**
+     * Test the parseLine function with invalid data.
+     *
+     * @dataProvider dataProvider_parseLine_invalid
+     */
+    public function test_parseLine_with_invalid($rawLine, $itemSpecifier) {
+        $this->setExpectedException('InvalidArgumentException');
+        $result = $this->stub->parseLine($rawLine, $itemSpecifier);
+    }
+    public function dataProvider_parseLine_invalid() {
+        return array(
+            //Two empty strings
+            array('', ''),
+
+            //rawText only with whitespace
+            array('    ', '-'),
+            array('   ', ''),
+
+            //rawText with specifier and only whitespace
+            array('   -     ', '-')
         );
     }
 }

@@ -59,9 +59,9 @@ TEXT;
      *
      * @dataProvider dataProvider_parse_valid
      */
-    public function test_parse($rawText, $itemIdentifier, $expected, $match) {
+    public function test_parse($rawText, $itemSpecifier, $expected, $match) {
         $this->stub->setRawText($rawText);
-        $this->stub->setItemSpecifier($itemIdentifier);
+        $this->stub->setItemSpecifier($itemSpecifier);
 
         $this->assertEquals($expected, $this->stub->parse());
     }
@@ -189,12 +189,14 @@ LIST;
         );
 
         if($shouldMatch) {
+            $this->stub->setItemSpecifier($itemSpecifier);
             $this->assertEquals($expected,
-                                $this->stub->parseLine($rawLine, $itemSpecifier));
+                                $this->stub->parseLine($rawLine));
         }
         else{
+            $this->stub->setItemSpecifier($itemSpecifier);
             $this->assertEquals($expected,
-                                $this->stub->parseLine($rawLine, $itemSpecifier));
+                                $this->stub->parseLine($rawLine));
         }
 
     }
@@ -268,7 +270,8 @@ LIST;
      */
     public function test_parseLine_with_invalid($rawLine, $itemSpecifier) {
         $this->setExpectedException('InvalidArgumentException');
-        $result = $this->stub->parseLine($rawLine, $itemSpecifier);
+        $this->stub->setItemSpecifier($itemSpecifier);
+        $result = $this->stub->parseLine($rawLine);
     }
     public function dataProvider_parseLine_invalid() {
         return array(
@@ -281,6 +284,79 @@ LIST;
 
             //rawText with specifier and only whitespace
             array('   -     ', '-')
+        );
+    }
+
+
+
+    /**
+     * Test that continuation lines are merged correctly
+     * @dataProvider dataProvider_mergeContinuationLines_valid
+     */
+    public function test_mergeContinuationLines_with_valid($originalArray,
+                                                           $expectedArray,
+                                                           $itemSpecifier,
+                                                           $shouldMatch) {
+        $this->stub->setItemSpecifier($itemSpecifier);
+        if($shouldMatch) {
+            $this->assertEquals(
+                $this->stub->mergeContinuationLines($originalArray),
+                $expectedArray);
+        }
+        else {
+            $this->assertNotEquals(
+                $this->stub->mergeContinuationLines($originalArray),
+                $expectedArray);
+
+        }
+    }
+    public function dataProvider_mergeContinuationLines_valid() {
+        return array(
+            array(
+                array(
+                    array(
+                        'lineType' => 'new',
+                        'specifierIndentLevel' => 1,
+                        'content'              => 'Lines that should be joined'
+                    ),
+                    array(
+                        'lineType' => 'continuation',
+                        'specifierIndentLevel' => 1,
+                        'content'              => 'together in harmony.'
+                    ),
+                    array(
+                        'lineType' => 'new',
+                        'specifierIndentLevel' => 4,
+                        'content'              => 'An individual line.'
+                    ),
+                    array(
+                        'lineType' => 'new',
+                        'specifierIndentLevel' => 4,
+                        'content'              => 'An individual line 2.'
+                    ),
+                    array(
+                        'lineType' => 'continuation',
+                        'specifierIndentLevel' => 8,
+                        'content'              => 'Together in harmony.'
+                    )
+                ),
+                array(
+                    array(
+                        'specifierIndentLevel' => 1,
+                        'content'              => 'Lines that should be joined together in harmony.'
+                    ),
+                    array(
+                        'specifierIndentLevel' => 4,
+                        'content'              => 'An individual line.'
+                    ),
+                    array(
+                        'specifierIndentLevel' => 4,
+                        'content'              => 'An individual line 2. Together in harmony.'
+                    )
+                ),
+                '-',
+                true
+            )
         );
     }
 }

@@ -8,7 +8,22 @@ class OMP_Parser_AbstractTest extends PHPUnit_Framework_TestCase {
         $this->stub = $this->getMockForAbstractClass('OMP_Parser_Abstract');
     }
 
-    public function test_dummyTest() {
-        $this->assertTrue(true);
+
+    public function test_rawText_getters_setters() {
+        $exampleText = 'Testing';
+        $this->stub->setRawText($exampleText);
+        $this->assertEquals($this->stub->getRawText(), $exampleText);
+    }
+
+    public function test_parsedData_getters_setters() {
+        $exampleText = 'Testing';
+        $this->stub->setParsedData($exampleText);
+        $this->assertEquals($this->stub->getParsedData(), $exampleText);
+    }
+
+    public function test_postConsumedText_getters_setters() {
+        $exampleText = 'Testing';
+        $this->stub->setPostConsumedText($exampleText);
+        $this->assertEquals($this->stub->getPostConsumedText(), $exampleText);
     }
 }

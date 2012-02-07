@@ -108,7 +108,7 @@ RECIPE;
     /**
      * Make sure the world doesn't cave in if no method section is provided
      */
-    public function test_parse_with_no() {
+    public function test_parse_with_no_method_section() {
         $rawText = <<<RECIPE
 More text over
 

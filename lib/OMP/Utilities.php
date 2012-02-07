@@ -49,6 +49,7 @@ class OMP_Utilities {
      */
     public static function mergeOnNewlines($lines) {
 
+        //TODO: Could this be done with implode?
         $merged = '';
         $first = true;
 

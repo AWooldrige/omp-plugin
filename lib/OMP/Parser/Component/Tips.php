@@ -1,22 +1,22 @@
 <?php
 
-class OMP_Parser_Component_Method extends OMP_Parser_Component_Abstract {
+class OMP_Parser_Component_Tips extends OMP_Parser_Component_Abstract {
 
-    const SECTION_HEADER = 'Method';
+    const SECTION_HEADER = 'Tips';
 
     /**
      * Constructor must set the name of the component
      */
     function __construct() {
-        $this->componentName = 'method';
+        $this->componentName = 'tips';
     }
 
 
     /**
-     * Parse the method section of the supplied text
+     * Parse the tips section of the supplied text
      *
      * @param text string text to be parsed with the OMP_Parser_
-     * @return array the method data extracted from the raw text
+     * @return array the tips data extracted from the raw text
      */
     public function parse($text) {
         $this->rawText = $text;

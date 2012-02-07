@@ -23,9 +23,9 @@ class OMP_Parser_Component_Tips extends OMP_Parser_Component_Abstract {
 
         $data = array();
         $paragraphs = OMP_Utilities::splitOnParagraphs($text);
-        $methodFound = false;
+        $tipFound = false;
 
-        //Can only have one method paragraph
+        //Can only have one tip paragraph
         foreach($paragraphs as $p) {
               $lines = OMP_Utilities::splitOnNewlines($p);
 
@@ -41,16 +41,16 @@ class OMP_Parser_Component_Tips extends OMP_Parser_Component_Abstract {
                   continue;
               }
 
-            if(!$methodFound) {
+            if(!$tipFound) {
                 //Can assume at this point that this paragraph is an attempt at
                 //an ingredients paragraph
                 $list = new OMP_Parser_Generic_List(
                     OMP_Utilities::mergeOnNewlines(array_slice($lines, 1)), '-');
-                $methodFound = true;
+                $tipFound = true;
                 $data = $list->parse();
             }
             else {
-                throw new InvalidArgumentException('Only one method section is allowed per recipe');
+                throw new InvalidArgumentException('Only one tip section is allowed per recipe');
             }
         }
         return (count($data) > 0) ? $data : null;

@@ -1,8 +1,9 @@
 {
     "production" : {
-        "components" : [
+        "active-omp-parser-components" : [
             "Ingredients",
-            "Method"
+            "Method",
+            "Tips"
         ]
     },
 

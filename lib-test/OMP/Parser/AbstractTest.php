@@ -26,4 +26,11 @@ class OMP_Parser_AbstractTest extends PHPUnit_Framework_TestCase {
         $this->stub->setPostConsumedText($exampleText);
         $this->assertEquals($this->stub->getPostConsumedText(), $exampleText);
     }
+
+    public function test_activeComponents_getters_setters() {
+        $exampleComponents = array('Ingredients', 'Method', 'Tips');
+        $this->stub->setActiveComponents($exampleComponents);
+        $this->assertEquals($this->stub->getActiveComponents(),
+                            $exampleComponents);
+    }
 }

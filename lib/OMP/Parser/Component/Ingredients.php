@@ -18,10 +18,11 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
      * @param text string text to be parsed with the OMP_Parser_
      * @return array the ingredients data extracted from the raw text
      */
-    public function parse($text) {
-        $this->rawText = $text;
+    public function parse($text = null) {
+        if(null !== $text)
+            $this->setRawText($text);
 
-        $paragraphs = OMP_Utilities::splitOnParagraphs($text);
+        $paragraphs = OMP_Utilities::splitOnParagraphs($this->rawText);
 
         //Go over each paragraph in the text provided
         foreach($paragraphs as $p) {

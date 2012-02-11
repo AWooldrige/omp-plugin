@@ -16,7 +16,7 @@ abstract class OMP_Parser_Component_Abstract {
      * @param string $text recipe text to parse with OMP_Parser_Component
      * @return array the data extracted from the parsing
      */
-    abstract protected function parse($text);
+    abstract protected function parse($text = null);
 
     /**
      * Set the raw text that the component will parse.
@@ -53,7 +53,8 @@ abstract class OMP_Parser_Component_Abstract {
      * @return string the parsed data
      */
     public function getParsedData() {
-        return $this->parsedData;
+        $val = (count($this->parsedData) > 0) ? $this->parsedData : null;
+        return $val;
     }
 
     /**

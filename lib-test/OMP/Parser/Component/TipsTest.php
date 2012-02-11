@@ -49,7 +49,9 @@ RECIPE;
             )
         );
 
-        $this->assertEquals($expectedData, $this->component->parse($rawText));
+        $this->component->setRawText($rawText);
+        $this->component->parse();
+        $this->assertEquals($expectedData, $this->component->getParsedData());
     }
 
 

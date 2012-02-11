@@ -18,11 +18,12 @@ class OMP_Parser_Component_Method extends OMP_Parser_Component_Abstract {
      * @param text string text to be parsed with the OMP_Parser_
      * @return array the method data extracted from the raw text
      */
-    public function parse($text) {
-        $this->rawText = $text;
+    public function parse($text = null) {
+        if(null !== $text)
+            $this->setRawText($text);
 
         $data = array();
-        $paragraphs = OMP_Utilities::splitOnParagraphs($text);
+        $paragraphs = OMP_Utilities::splitOnParagraphs($this->rawText);
         $methodFound = false;
 
         //Can only have one method paragraph
@@ -53,6 +54,7 @@ class OMP_Parser_Component_Method extends OMP_Parser_Component_Abstract {
                 throw new InvalidArgumentException('Only one method section is allowed per recipe');
             }
         }
-        return (count($data) > 0) ? $data : null;
+        $this->parsedData = $data;
+        return $this->getParsedData();
     }
 }

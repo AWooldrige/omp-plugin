@@ -51,7 +51,10 @@ RECIPE;
             )
         );
 
-        $this->assertEquals($expectedData, $this->component->parse($rawText));
+        $this->component->setRawText($rawText);
+        $this->component->parse();
+
+        $this->assertEquals($expectedData, $this->component->getParsedData());
     }
 
     public function test_parse_with_extra_method() {

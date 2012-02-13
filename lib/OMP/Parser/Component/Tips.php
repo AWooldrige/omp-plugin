@@ -2,7 +2,7 @@
 
 class OMP_Parser_Component_Tips extends OMP_Parser_Component_Abstract {
 
-    const SECTION_HEADER = 'Tips'; 
+    const SECTION_HEADER = 'Tips';
 
     /**
      * Constructor must set the name of the component 

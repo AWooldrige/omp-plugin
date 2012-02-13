@@ -6,6 +6,16 @@
  * style.
  */
 class OMP_Parser_Sequential extends OMP_Parser_Abstract {
+
+    /**
+     * Sequentially parse the text within rawText, using the components
+     * specified by activeComponents. The sequential parser chains the
+     * components, sending the output of the previous, as the output of the next
+     *
+     * @param string rawText raw text to parse
+     * @param array activeComponents array of strings of active component names
+     * @return array the parsed data
+     */
     public function parse($rawText = null, $activeComponents = null) {
         if((null !== $rawText))
             $this->rawText = $rawText;
@@ -14,6 +24,8 @@ class OMP_Parser_Sequential extends OMP_Parser_Abstract {
 
         $tmpData = array();
         $tmpText = $this->rawText;
+
+        //Chain the ouput of each component
         foreach($this->activeComponents as $c) {
             $componentName = 'OMP_Parser_Component_' . $c;
             $component = new $componentName();

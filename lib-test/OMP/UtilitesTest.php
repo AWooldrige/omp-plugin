@@ -243,4 +243,44 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
                   true)
         );
     }
+
+
+
+    /**
+     * @dataProvider dataProvider_mergeManualLinebreaks
+     */
+    public function test_mergeManualLinebreaks($raw, $expected, $shouldEqual) {
+        if($shouldEqual) {
+            $this->assertEquals(
+                OMP_Utilities::mergeManualLinebreaks($raw), $expected);
+        }
+        else {
+            $this->assertNotEquals(
+                OMP_Utilities::mergeManualLinebreaks($raw), $expected);
+        }
+    }
+    public function dataProvider_mergeManualLinebreaks() {
+        return array(
+            array(
+                "A paragraph with no line breaks.",
+                "A paragraph with no line breaks.",
+                true
+            ),
+            array(
+                'A paragraph with' . PHP_EOL . '1 linebreak',
+                'A paragraph with 1 linebreak',
+                true
+            ),
+            array(
+                'A paragraph with    ' . PHP_EOL . '   1 break and trailing',
+                'A paragraph with 1 break and trailing',
+                true
+            ),
+            array(
+                'Plenty of'.PHP_EOL.'linebreaks'.PHP_EOL.'within'.PHP_EOL,
+                'Plenty of linebreaks within',
+                true
+            )
+        );
+    }
 }

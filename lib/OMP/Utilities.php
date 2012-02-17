@@ -88,4 +88,21 @@ class OMP_Utilities {
 
         return $merged;
     }
+
+
+    /**
+     * Convert a string provided that consists of multiple lines, into a string
+     * which joins the new lines separated with a space.
+     *
+     * Paragraphs with manual
+     * line breaks should be merged
+     * into one line.
+     *
+     * Paragraphs with manual line breaks should be merged into one line.
+     *
+     * @param string $rawParagraph
+     * @return string string with merged manual linebreaks
+     */
+    public static function mergeManualLinebreaks($rawText) {
+    }
 }

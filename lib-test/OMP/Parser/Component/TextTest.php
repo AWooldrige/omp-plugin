@@ -149,7 +149,7 @@ A paragraph inserted between two other section headers, split over multiple line
 Another paragrph inserted here.
 LEFTOVER;
         $t[1] = array(
-            'summary' => 'Some example more text, including manual line breaks which should be merged into one line.'
+            'summary' => 'Some example more text, including manual line breaks which should be merged into one line.',
             'other' => $leftover
         );
 

@@ -14,6 +14,10 @@ class OMP_Parser_Component_Text extends OMP_Parser_Component_Abstract {
     /**
      * Parse the text section of the supplied text.
      *
+     * The first paragraph of the recipe is considered to be the summary text
+     * ("more" text in WordPress). Any subsequent paragraphs throughout the
+     * entire recipe are considered plain content.
+     *
      * @param text string text to be parsed
      * @return array the text data extracted from the raw text
      */

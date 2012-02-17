@@ -16,9 +16,9 @@ class OMP_Parser_Component_TextTest extends PHPUnit_Framework_TestCase {
                                                  $expectedPostConsumedText) {
 
         $actualData = $this->component->parse($rawText);
-        $this->assertEquals($actualData, $expectedData);
-        $this->assertEquals($this->component->getPostConsumedText(),
-                            $expectedPostConsumedText);
+        $this->assertEquals($expectedData, $actualData);
+        $this->assertEquals($expectedPostConsumedText,
+                            $this->component->getPostConsumedText());
     }
     public function dataProvider_parse_general_use_cases() {
 

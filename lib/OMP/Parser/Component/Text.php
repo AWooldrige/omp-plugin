@@ -28,10 +28,34 @@ class OMP_Parser_Component_Text extends OMP_Parser_Component_Abstract {
         $data = array();
         $paragraphs = OMP_Utilities::splitOnParagraphs($this->rawText);
 
+        $pParas = array();
+
         foreach($paragraphs as $p) {
+            $lines = OMP_Utilities::splitOnNewlines($p);
+
+            //See if this paragraph contains a section header
+            try {
+                //Its a section header, ignore
+                $sectionHeader = $this->parseSectionHeader($lines[0]);
+                $this->postConsumed[] = $p;
+                continue;
+            }
+            catch(InvalidArgumentException $e) {
+                $pParas[] = $p;
+            }
         }
 
-        $this->parsedData = $data;
+        if(count($pParas) == 0) {
+            return null;
+        }
+
+        $this->parsedData = array(
+            'summary' => $pParas[0],
+            'other' => (count($pParas) > 1) ?
+                            OMP_Utilities::mergeOnParagraphs(
+                                array_slice($pParas, 1)) :
+                            null
+        );
         return $this->getParsedData();
     }
 }

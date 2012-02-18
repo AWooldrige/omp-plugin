@@ -104,10 +104,12 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
      */
     public function test_splitOnNewlines($raw, $expected, $shouldEqual) {
         if($shouldEqual) {
-            $this->assertEquals(OMP_Utilities::splitOnNewlines($raw), $expected);
+            $this->assertEquals($expected,
+                OMP_Utilities::splitOnNewlines($raw));
         }
         else {
-            $this->assertNotEquals(OMP_Utilities::splitOnNewlines($raw), $expected);
+            $this->assertNotEquals($expected,
+                OMP_Utilities::splitOnNewlines($raw));
         }
     }
 
@@ -115,24 +117,48 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
     public function dataProvider_splitOnNewlines() {
         return array(
             //No newlines
-            array("A lovely document with lots of character and class",
-                  array("A lovely document with lots of character and class"),
-                  true),
+            array(
+                "A lovely document with lots of character and class",
+                array(
+                    "A lovely document with lots of character and class"
+                ),
+                true
+            ),
 
             //2 newlines
-            array("A lovely document with ".PHP_EOL.
-                  "lots of character and class",
-                  array("A lovely document with ",
-                        "lots of character and class"),
-                  true),
+            array(
+                "A lovely document with ".PHP_EOL.
+                "lots of character and class",
+                array(
+                    "A lovely document with ",
+                    "lots of character and class"
+                ),
+                true
+            ),
 
             //3 newlines
-            array("A lovely document with ".PHP_EOL."lots of character ".
-                  PHP_EOL."and class",
-                  array("A lovely document with ",
-                        "lots of character ",
-                        "and class"),
-                  true),
+            array(
+                "A lovely document with ".PHP_EOL."lots of character ".
+                PHP_EOL."and class",
+                array(
+                    "A lovely document with ",
+                    "lots of character ",
+                    "and class"
+                ),
+                true
+            ),
+
+            //Can we cope with a trailing PHP_EOL
+            array(
+                "A lovely document with ".PHP_EOL."lots of character ".
+                PHP_EOL."and class".PHP_EOL,
+                array(
+                    "A lovely document with ",
+                    "lots of character ",
+                    "and class"
+                ),
+                true
+            ),
 
             //Make sure that a test fails
             array("A lovely document with lots of character and class",
@@ -251,12 +277,12 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
      */
     public function test_mergeManualLinebreaks($raw, $expected, $shouldEqual) {
         if($shouldEqual) {
-            $this->assertEquals(
-                OMP_Utilities::mergeManualLinebreaks($raw), $expected);
+            $this->assertEquals($expected,
+                OMP_Utilities::mergeManualLinebreaks($raw));
         }
         else {
-            $this->assertNotEquals(
-                OMP_Utilities::mergeManualLinebreaks($raw), $expected);
+            $this->assertNotEquals($expected,
+                OMP_Utilities::mergeManualLinebreaks($raw));
         }
     }
     public function dataProvider_mergeManualLinebreaks() {
@@ -291,7 +317,7 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
                 'Plenty of linebreaks within.'.
                 PHP_EOL.PHP_EOL.
                 'Multiple paragraphs also with linebreaks'.
-                PHP_EOL.PHP_EOL.PHP_EOL.
+                PHP_EOL.PHP_EOL.
                 'Trailing paragraph with no linebreaks',
                 true
             )

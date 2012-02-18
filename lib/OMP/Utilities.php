@@ -42,7 +42,17 @@ class OMP_Utilities {
      * @return array array of each line of the $raw
      */
     public static function splitOnNewlines($raw) {
-        return split(PHP_EOL, $raw);
+        $lines = split(PHP_EOL, $raw);
+
+        //Need to remove any lines that just contain whitespace
+        $toReturn = array();
+        foreach($lines as $l) {
+            if(strlen(trim($l)) > 0) {
+                $toReturn[] = $l;
+            }
+        }
+
+        return $toReturn;
     }
 
     /**
@@ -113,11 +123,29 @@ class OMP_Utilities {
      *
      * Note: Expects newlines to be unified.
      *
-     * @param string $rawText
+     * @param string $rawText the raw text to merge
+     * @param string $delimited optional delimiter to use, defaults to space
      * @return string string with merged manual linebreaks
      */
-    public static function mergeManualLinebreaks($rawText) {
-        //Look for occurance of one consecutive PHP_EOL
-            //Replace with a space
+    public static function mergeManualLinebreaks($rawText, $delimiter = null) {
+
+        $paras = self::splitOnParagraphs($rawText);
+        $replace = (null === $delimiter) ? ' ' : $delimiter;
+
+        for($i = 0; $i < count($paras); $i++) {
+            $lines = self::splitOnNewlines($paras[$i]);
+            $paras[$i] = '';
+            $first = true;
+            foreach($lines as $l) {
+                if($first) {
+                    $paras[$i] = trim($l);
+                    $first = false;
+                    continue;
+                }
+                $paras[$i] .= $replace . trim($l);
+            }
+        }
+
+        return self::mergeOnParagraphs($paras);
     }
 }

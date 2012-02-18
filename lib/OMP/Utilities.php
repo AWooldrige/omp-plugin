@@ -6,6 +6,8 @@ class OMP_Utilities {
      * one paragraph. Expects all linebreaks to be represented by the PHP_EOL
      * delimeter.
      *
+     * Note: Expects newlines to be unified.
+     *
      * @param string $raw string to split into paragraphs
      * @return array array of paragraphs
      */
@@ -34,6 +36,8 @@ class OMP_Utilities {
      * linebreaks in the string, an array with one element is still returned.
      * Expects unified new lines.
      *
+     * Note: Expects newlines to be unified.
+     *
      * @param string $raw text to split new lines
      * @return array array of each line of the $raw
      */
@@ -43,6 +47,8 @@ class OMP_Utilities {
 
     /**
      * Convert array of lines back into plain text with new lines
+     *
+     * Note: Expects newlines to be unified.
      *
      * @param array $lines array of new lines to merge
      * @return string merged into a string
@@ -68,6 +74,8 @@ class OMP_Utilities {
     /**
      * Convert an array of paragraphs back into plain text with double line
      * breaks.
+     *
+     * Note: Expects newlines to be unified.
      *
      * @param array $paragraphs array of paragraphs to merge
      * @return string merged paragraphs
@@ -103,10 +111,13 @@ class OMP_Utilities {
      *
      * Paragraphs with manual line breaks should be merged into one line.
      *
+     * Note: Expects newlines to be unified.
+     *
      * @param string $rawText
      * @return string string with merged manual linebreaks
      */
     public static function mergeManualLinebreaks($rawText) {
+        //Look for occurance of one consecutive PHP_EOL
+            //Replace with a space
     }
-
 }

@@ -49,6 +49,11 @@ class OMP_Parser_Component_Text extends OMP_Parser_Component_Abstract {
             return null;
         }
 
+        //Merge all manual linebreaks
+        for($i = 0; $i < count($pParas); $i++) {
+            $pParas[$i] = OMP_Utilities::mergeManualLinebreaks($pParas[$i]);
+        }
+
         $this->parsedData = array(
             'summary' => $pParas[0],
             'other' => (count($pParas) > 1) ?

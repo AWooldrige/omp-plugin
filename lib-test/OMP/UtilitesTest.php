@@ -280,6 +280,20 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
                 'Plenty of'.PHP_EOL.'linebreaks'.PHP_EOL.'within'.PHP_EOL,
                 'Plenty of linebreaks within',
                 true
+            ),
+            array(
+                'Plenty of'.PHP_EOL.'linebreaks'.PHP_EOL.'within.'.
+                PHP_EOL.PHP_EOL.
+                'Multiple paragraphs also'.PHP_EOL.'with linebreaks'.
+                PHP_EOL.PHP_EOL.PHP_EOL.
+                'Trailing paragraph with no linebreaks',
+
+                'Plenty of linebreaks within.'.
+                PHP_EOL.PHP_EOL.
+                'Multiple paragraphs also with linebreaks'.
+                PHP_EOL.PHP_EOL.PHP_EOL.
+                'Trailing paragraph with no linebreaks',
+                true
             )
         );
     }

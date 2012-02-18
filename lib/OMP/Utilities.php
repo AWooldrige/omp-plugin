@@ -92,7 +92,10 @@ class OMP_Utilities {
 
     /**
      * Convert a string provided that consists of multiple lines, into a string
-     * which joins the new lines separated with a space.
+     * which joins the new lines separated with a space. Note that this is not
+     * context aware, i.e. it will merge any newline it encounters. No detection
+     * for section headers of list items etc occurs. It can handle multiple
+     * paragraphs.
      *
      * Paragraphs with manual
      * line breaks should be merged
@@ -100,9 +103,10 @@ class OMP_Utilities {
      *
      * Paragraphs with manual line breaks should be merged into one line.
      *
-     * @param string $rawParagraph
+     * @param string $rawText
      * @return string string with merged manual linebreaks
      */
     public static function mergeManualLinebreaks($rawText) {
     }
+
 }

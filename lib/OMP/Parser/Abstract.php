@@ -106,4 +106,14 @@ abstract class OMP_Parser_Abstract {
     public function getActiveComponents() {
         return $this->activeComponents;
     }
+
+    /**
+     * Convert and return the contents of parsedData in JSON format
+     *
+     * @return string JSON representation of parsedData
+     */
+    public function getParsedDataAsJson() {
+        $json = new Zend_Json();
+        return $json->encode($this->parsedData);
+    }
 }

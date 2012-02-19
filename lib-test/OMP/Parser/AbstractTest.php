@@ -33,4 +33,57 @@ class OMP_Parser_AbstractTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($this->stub->getActiveComponents(),
                             $exampleComponents);
     }
+
+    public function test_getParsedDataAsJson_() {
+        $this->stub->setParsedData(
+            array(
+                'Ingredients' => array(
+                    '_' => array(
+                        array(
+                            'name'      => 'Test Ingredient',
+                            'quantity'  => '2 tsp',
+                            'directive' => null
+                        ),
+                        array(
+                            'name'      => 'Another',
+                            'quantity'  => '10 g (1 tsp)',
+                            'directive' => 'Sifted, gently'
+                        ),
+                        array(
+                            'name'      => 'Clove',
+                            'quantity'  => null,
+                            'directive' => null
+                        )
+                    )
+                )
+            )
+        );
+
+        /* FORMATTED JSON
+        {
+            "Ingredients" : {
+                "_" : [
+                    {
+                        "name":"Test Ingredient",
+                        "quantity":"2 tsp",
+                        "directive":null
+                    },
+                    {
+                        "name":"Another",
+                        "quantity":"10 g (1 tsp)",
+                        "directive":"Sifted, gently"
+                    },
+                    {
+                        "name":"Clove",
+                        "quantity":null,
+                        "directive":null
+                    }
+                ]
+            }
+        }
+        */
+        $expectedJson = '{"Ingredients":{"_":[{"name":"Test Ingredient","quantity":"2 tsp","directive":null},{"name":"Another","quantity":"10 g (1 tsp)","directive":"Sifted, gently"},{"name":"Clove","quantity":null,"directive":null}]}}';
+
+        $this->assertEquals($expectedJson, $this->stub->getParsedDataAsJson());
+    }
 }

@@ -118,6 +118,81 @@ POSTCONSUMPTION;
         $this->assertEquals($expectedPostConsumption, $postConsumed);
     }
 
+    /**
+     * @dataProvider dataProvider_parse_exception_raising_recipes
+     */
+    public function test_with_exception_raising_recipes($rawText) {
+
+        $activeComponents = array('Ingredients', 'Method', 'Tips');
+
+        $this->setExpectedException('InvalidArgumentException');
+        $data = $this->parser->parse($rawText, $activeComponents);
+    }
+
+    public function dataProvider_parse_exception_raising_recipes() {
+        $returnArray = array();
+
+
+        //Two Tips sections
+        $tmp = array();
+        $tmp[] = <<<RECIPE
+This is more text
+
+=== Method ===
+ - Test
+
+=== Tips ===
+ - Test method
+
+=== Tips ===
+ - This is a tip
+
+Some random text
+RECIPE;
+        $returnArray[] = $tmp;
+
+
+        //Two Method sections
+        $tmp = array();
+        $tmp[] = <<<RECIPE
+This is more text
+
+=== Method ===
+ - Test
+
+=== Method ===
+ - Test
+
+=== Tips ===
+ - This is a tip
+
+Some random text
+RECIPE;
+        $returnArray[] = $tmp;
+
+
+        //Two Method sections, one specified with a component
+        $tmp = array();
+        $tmp[] = <<<RECIPE
+This is more text
+
+=== Method ===
+ - Test
+
+=== Method for Component ===
+ - Test
+
+=== Tips ===
+ - This is a tip
+
+Some random text
+RECIPE;
+        $returnArray[] = $tmp;
+
+        return $returnArray;
+    }
+
+
 
     /**
      * KITCHEN SINK TEST

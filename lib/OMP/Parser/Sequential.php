@@ -37,7 +37,8 @@ class OMP_Parser_Sequential extends OMP_Parser_Abstract {
         }
 
         $this->parsedData = $tmpData;
-        $this->postConsumedText = $tmpText;
+        $this->postConsumedText = (strlen(trim($tmpText)) === 0) ?
+                                  null : $tmpText;
 
         return $this->parsedData;
     }

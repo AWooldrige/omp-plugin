@@ -44,9 +44,35 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
 
             //Can assume at this point that this paragraph is an attempt at
             //a meta paragraph
+            $meta = array();
+            for($i=1; $i<count($lines); $i++) {
+                $meta[] = $this->parseLine($lines[$i]);
+            }
 
         }
 
         return $this->getParsedData();
+    }
+
+
+    /**
+     * Parse meta line
+     *
+     * An meta line is one such as:
+     * Active Time - 20m
+     *
+     * @param string $line the meta line
+     * @return array parsed meta line
+     */
+    public function parseLine($line = '') {
+        $line = trim($line);
+        $cols = explode(self::SEP, $line);
+
+        for($i=0; $i<count($cols); $i++) {
+            $cols[$i] = trim($cols[$i]);
+            if(strlen($cols[$i]) == 0)
+                throw new InvalidArgumentException('Either a blank meta line was provided, or a separator followed by no argument. Offending line: ' . $line);
+        }
+
     }
 }

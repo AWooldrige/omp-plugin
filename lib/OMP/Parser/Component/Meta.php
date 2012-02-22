@@ -58,7 +58,7 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
     /**
      * Parse meta line
      *
-     * An meta line is one such as:
+     * A meta line is one such as:
      * Active Time - 20m
      *
      * @param string $line the meta line
@@ -74,5 +74,18 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
                 throw new InvalidArgumentException('Either a blank meta line was provided, or a separator followed by no argument. Offending line: ' . $line);
         }
 
+    }
+
+    /**
+     * Normalise meta name
+     * E.g. acTive TiMe -> activeime
+     */
+    public function normaliseMetaName($name) {
+        //trim
+        //convert to lowercase
+        //preg_replace all spaces* with _
+        //check valid name
+        //call function parseMetaLine_$name
+        //appendToParsedData(^^)
     }
 }

@@ -323,4 +323,32 @@ class OMP_UtilitiesTest extends PHPUnit_Framework_TestCase {
             )
         );
     }
+
+
+    /**
+     * @dataProvider dataProvider_isPhpLabelValid
+     */
+    public function test_isPhpLabelValid($raw, $isValid) {
+        if($isValid) {
+            $this->assertTrue(OMP_Utilities::isPhpLabelValid($raw));
+        }
+        else {
+            $this->assertFalse(OMP_Utilities::isPhpLabelValid($raw));
+        }
+    }
+
+    public function dataProvider_isPhpLabelValid() {
+        return array(
+            array('testTest', true),
+            array('b', true),
+            array('4er', true),
+            array('_test', true),
+            array('TestCase', true),
+            array('test_class5', true),
+
+            array('test label', false),
+            array(' test_label', false),
+            array('%test_label', false),
+            array('.test_label', false),
+        );
 }

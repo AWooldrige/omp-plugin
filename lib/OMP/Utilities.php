@@ -148,4 +148,19 @@ class OMP_Utilities {
 
         return self::mergeOnParagraphs($paras);
     }
+
+    /**
+     * Determines whether the provided string provided is acceptable as a label
+     * within PHP. I.e. a function of variable name
+     *
+     * @param string $label the label to check
+     * @return boolean whether valid or not
+     */
+    public static function isPhpLabelValid($label) {
+        if (preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $label)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

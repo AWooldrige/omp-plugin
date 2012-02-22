@@ -83,9 +83,16 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
     public function normaliseMetaName($name) {
         //trim
         //convert to lowercase
-        //preg_replace all spaces* with _
-        //check valid name
-        //call function parseMetaLine_$name
-        //appendToParsedData(^^)
+        //replace all spaces with underscore
+        $normalised = preg_replace('/\s+/', '_', strtolower(trim($name)));
+
+        //Check valid name
+        if(!OMP_Utilities::isPhpLabelValid($normalised)) {
+            throw new InvalidArgumentException('Meta Name "'.$name.'", is '.
+                'not valid as a standard PHP label (when normalised to "'.
+                $normalised.'").');
+        }
+
+        return $normalised;
     }
 }

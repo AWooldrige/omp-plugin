@@ -154,46 +154,45 @@ POSTCONSUMED;
 
 
     /**
-     * @dataProvider dataProvider_normaliseName_valid_examples
+     * @dataProvider dataProvider_normaliseMetaName_valid_examples
      */
-    public function test_normaliseName_valid_examples($rawText, $expected) {
-        $actualData = $this->component->normaliseName($rawText);
+    public function test_normaliseMetaName_valid_examples($rawText, $expected) {
+        $actualData = $this->component->normaliseMetaName($rawText);
         $this->assertEquals($expected, $actualData);
     }
-    public function dataProvider_normaliseName_valid_examples() {
+    public function dataProvider_normaliseMetaName_valid_examples() {
         return array(
             array('One', 'one'),
             array('Two Words', 'two_words'),
             array('tHree woRds TEST', 'three_words_test'),
-            array('already_correct', 'already_correct'),
-        );
-    }
-
-    /**
-     * @dataProvider dataProvider_normaliseName_invalid_examples
-     */
-    public function test_normaliseName_invalid_examples($rawText, $expected) {
-        $actualData = $this->component->normaliseName($rawText);
-        $this->assertNotEquals($expected, $actualData);
-    }
-    public function dataProvider_normaliseName_invalid_examples() {
-        return array(
-            array('One', 'One'),
-            array('Two Words', 'two words'),
-            array('tHree woRds TEST', 'Threewords_test'),
             array('already_correct', 'already_correct'),
             array('  extra   whitespace   ', 'extra_whitespace')
         );
     }
 
     /**
-     * @dataProvider dataProvider_normaliseName_exception_raising
+     * @dataProvider dataProvider_normaliseMetaName_invalid_examples
      */
-    public function test_normaliseName_exception_raising($rawText, $exception) {
-        $this->setExpectedException($exception);
-        $actualData = $this->component->normaliseName($rawText);
+    public function test_normaliseMetaName_invalid_examples($rawText, $expected) {
+        $actualData = $this->component->normaliseMetaName($rawText);
+        $this->assertNotEquals($expected, $actualData);
     }
-    public function dataProvider_normaliseName_exception_raising() {
+    public function dataProvider_normaliseMetaName_invalid_examples() {
+        return array(
+            array('One', 'One'),
+            array('Two Words', 'two words'),
+            array('tHree woRds TEST', 'Threewords_test'),
+        );
+    }
+
+    /**
+     * @dataProvider dataProvider_normaliseMetaName_exception_raising
+     */
+    public function test_normaliseMetaName_exception_raising($rawText, $exception) {
+        $this->setExpectedException($exception);
+        $actualData = $this->component->normaliseMetaName($rawText);
+    }
+    public function dataProvider_normaliseMetaName_exception_raising() {
         return array(
             array('& Test', 'InvalidArgumentException'),
             array('  " Test Other', 'InvalidArgumentException'),

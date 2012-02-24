@@ -152,6 +152,47 @@ POSTCONSUMED;
 
 
 
+    /**
+     * @dataProvider dataProvider_parseLine_valid_examples
+     */
+    public function test_parseLine_valid_examples($rawText,
+                                                  $expectedName,
+                                                  $expectedData) {
+        $actualData = $this->component->parseLine($rawText);
+        $this->assertEquals(array($expectedName, $expectedData), $actualData);
+    }
+    public function dataProvider_parseLine_valid_examples() {
+        //arg1 - raw test
+        //arg2 - expectedName
+        //arg3 - expectedData
+        return array(
+            array('One - 1 m',      'one', '1 m'),
+            array('Two tEst - 1 mg (2 whole)', 'two_test', '1 mg (2 whole)'),
+            array('  three   tEst - 1', 'three_test', '1'),
+            array('Extra Dash - extra-sliced', 'extra_dash', 'extra-sliced'),
+            array('Extra Dash - 1 - sliced', 'extra_dash', '1 - sliced'),
+        );
+    }
+
+    /**
+     * @dataProvider dataProvider_parseLine_exception_raising
+     */
+    public function test_parseLine_exception_raising($rawText, $exception) {
+        $this->setExpectedException($exception);
+        $actualData = $this->component->parseLine($rawText);
+    }
+    public function dataProvider_parseLine_exception_raising() {
+        return array(
+            array(' - ', 'InvalidArgumentException'),
+            array('', 'InvalidArgumentException'),
+            array('Test', 'InvalidArgumentException'),
+            array('Test - ', 'InvalidArgumentException'),
+            array(' - Test', 'InvalidArgumentException'),
+        );
+    }
+
+
+
 
     /**
      * @dataProvider dataProvider_normaliseMetaName_valid_examples

@@ -62,25 +62,39 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
      * Active Time - 20m
      *
      * @param string $line the meta line
-     * @return array parsed meta line
+     * @return array the normalised meta field, and raw data
      */
     public function parseLine($line = '') {
         $line = trim($line);
-        $cols = explode(self::SEP, $line);
-
-        for($i=0; $i<count($cols); $i++) {
-            $cols[$i] = trim($cols[$i]);
-            if(strlen($cols[$i]) == 0)
-                throw new InvalidArgumentException('Either a blank meta line was provided, or a separator followed by no argument. Offending line: ' . $line);
+        if(strlen($line) <= 0) {
+            throw new InvalidArgumentException('Meta line cannot be blank');
         }
 
+        $cols = explode(self::SEP, $line);
+
+        if(count($cols) !== 2) {
+            throw new InvalidArgumentException('The meta line "'.$line.'" '.
+                'cannot be interpreted. Most likely because the separator "'.
+                self::SEP.'" cannot be found in the line.');
+        }
+
+        $cols[0] = trim($cols[0]);
+        $cols[1] = trim($cols[1]);
+
+        if((strlen($cols[0]) <= 0) || (strlen($cols[1]) <= 0)) {
+            throw new InvalidArgumentException('The meta line "'.$line.'" '.
+                'is missing either the first or second argument');
+        }
+
+        return array($metaName = self::normaliseMetaName($cols[0]),
+                     $cols[1]);
     }
 
     /**
      * Normalise meta name
      * E.g. acTive TiMe -> activeime
      */
-    public function normaliseMetaName($name) {
+    public static function normaliseMetaName($name) {
         //trim
         //convert to lowercase
         //replace all spaces with underscore

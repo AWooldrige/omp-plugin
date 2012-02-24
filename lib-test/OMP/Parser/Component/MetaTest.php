@@ -40,8 +40,8 @@ Inactive Time - 0
  - Test tip
 META;
         $tmp[] = array(
-            'Active Time' => '20 m',
-            'Inactive Time' => '0'
+            'active_time' => '20 m',
+            'inactive_time' => '0'
         );
         $tmp[] = <<<POSTCONSUMED
 Some more text
@@ -76,8 +76,8 @@ InacTivE TIme - 0
  - Test tip
 META;
         $tmp[] = array(
-            'Active Time' => '20 m',
-            'Inactive Time' => '0'
+            'active_time' => '20 m',
+            'inactive_time' => '0'
         );
         $tmp[] = <<<POSTCONSUMED
 Some more text
@@ -115,11 +115,11 @@ Cost - £4.20
  - Test tip
 META;
         $tmp[] = array(
-            'Active Time' => '20m',
-            'Inactive Time' => '1hr 40m',
-            'Difficulty' => '2',
-            'Rating' => '5',
-            'Cost' => '£4.20'
+            'active_time' => '20m',
+            'inactive_time' => '1hr 40m',
+            'difficulty' => '2',
+            'rating' => '5',
+            'cost' => '£4.20'
         );
         $tmp[] = <<<POSTCONSUMED
 Some more text
@@ -140,15 +140,76 @@ POSTCONSUMED;
 
     /**
      * @dataProvider dataProvider_parse_exception_raising
-    public function test_parse_exception_raising($rawText) {
+     */
+    public function test_parse_exception_raising($rawText, $exception) {
+        $this->setExpectedException($exception);
+        $this->component->parse($rawText);
     }
     public function dataProvider_parse_exception_raising() {
-        return array(
-            array(
-            )
-        );
+        $returnArray = array();
+
+        $tmp = array();
+        $tmp[] = <<<META
+Some more text
+
+=== Ingredients ===
+Test Ingredient - 1
+
+Random more
+text
+
+=== Meta ===
+Completely Unkown Meta Field - 20 m
+Inactive Time - 0
+
+=== Tips ===
+ - Test tip
+META;
+        $tmp[] = 'InvalidArgumentException';
+        $toReturn[] = $tmp;
+
+        $tmp = array();
+        $tmp[] = <<<META
+Some more text
+
+=== Ingredients ===
+Test Ingredient - 1
+
+Random more
+text
+
+=== Meta ===
+Inactive Time - 0
+Without Data
+
+=== Tips ===
+ - Test tip
+META;
+        $tmp[] = 'InvalidArgumentException';
+        $toReturn[] = $tmp;
+
+        $tmp = array();
+        $tmp[] = <<<META
+Some more text
+
+=== Ingredients ===
+Test Ingredient - 1
+
+Random more
+text
+
+=== Meta ===
+Inactive Time - 0
+%532Invalid - test
+
+=== Tips ===
+ - Test tip
+META;
+        $tmp[] = 'InvalidArgumentException';
+        $toReturn[] = $tmp;
+
+        return $toReturn;
     }
-     */
 
 
 
@@ -159,7 +220,10 @@ POSTCONSUMED;
                                                   $expectedName,
                                                   $expectedData) {
         $actualData = $this->component->parseLine($rawText);
-        $this->assertEquals(array($expectedName, $expectedData), $actualData);
+        $this->assertEquals(array(
+            'name' => $expectedName,
+            'details' => $expectedData),
+            $actualData);
     }
     public function dataProvider_parseLine_valid_examples() {
         //arg1 - raw test

@@ -23,6 +23,7 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
             $this->setRawText($text);
 
         $paragraphs = OMP_Utilities::splitOnParagraphs($this->rawText);
+        $paraFound = false;
 
         //Go over each paragraph in the text provided
         foreach($paragraphs as $p) {
@@ -42,13 +43,33 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
                 continue;
             }
 
+            if($paraFound) {
+                throw new InvalidArgumentException('Only one meta section is allowed per recipe');
+            }
+
             //Can assume at this point that this paragraph is an attempt at
             //a meta paragraph
             $meta = array();
             for($i=1; $i<count($lines); $i++) {
-                $meta[] = $this->parseLine($lines[$i]);
+
+                $line = $this->parseLine($lines[$i]);
+
+                //Can we find a class method to process this meta field
+                $functionName = 'parseMeta_'.$line['name'];
+                if(!method_exists(__CLASS__, $functionName)) {
+                    throw new InvalidArgumentException('The meta field "'.
+                        $line['name'].'" (normalised) could not be processed.'.
+                        ' An appropriate function parseMeta_'.$line['name'].
+                        ' could not be found');
+
+                    //If the exception is caught, just skip this.
+                    continue;
+                }
+                $meta[$line['name']] = $this->$functionName($line['details']);
             }
 
+            $this->parsedData = $meta;
+            $paraFound = true;
         }
 
         return $this->getParsedData();
@@ -70,7 +91,7 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
             throw new InvalidArgumentException('Meta line cannot be blank');
         }
 
-        $cols = explode(self::SEP, $line);
+        $cols = explode(self::SEP, $line, 2);
 
         if(count($cols) !== 2) {
             throw new InvalidArgumentException('The meta line "'.$line.'" '.
@@ -86,9 +107,10 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
                 'is missing either the first or second argument');
         }
 
-        return array($metaName = self::normaliseMetaName($cols[0]),
-                     $cols[1]);
+        return array('name' => $metaName = self::normaliseMetaName($cols[0]),
+                     'details' => $cols[1]);
     }
+
 
     /**
      * Normalise meta name
@@ -108,5 +130,57 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
         }
 
         return $normalised;
+    }
+
+
+
+    /**
+     * Below are all the possible meta fields that are parseable
+     */
+
+    /**
+     * Parse the active_time meta field
+     *
+     * @param string $raw the raw data provided to the meta field
+     * @return mixed data extracted from the meta field.
+     */
+    private function parseMeta_active_time($raw) {
+        return $raw;
+    }
+    /**
+     * Parse the inactive_time meta field
+     *
+     * @param string $raw the raw data provided to the meta field
+     * @return mixed data extracted from the meta field.
+     */
+    private function parseMeta_inactive_time($raw) {
+        return $raw;
+    }
+    /**
+     * Parse the difficulty meta field
+     *
+     * @param string $raw the raw data provided to the meta field
+     * @return mixed data extracted from the meta field.
+     */
+    private function parseMeta_difficulty($raw) {
+        return $raw;
+    }
+    /**
+     * Parse the rating meta field
+     *
+     * @param string $raw the raw data provided to the meta field
+     * @return mixed data extracted from the meta field.
+     */
+    private function parseMeta_rating($raw) {
+        return $raw;
+    }
+    /**
+     * Parse the cost meta field
+     *
+     * @param string $raw the raw data provided to the meta field
+     * @return mixed data extracted from the meta field.
+     */
+    private function parseMeta_cost($raw) {
+        return $raw;
     }
 }

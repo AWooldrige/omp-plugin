@@ -183,4 +183,13 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
     private function parseMeta_cost($raw) {
         return $raw;
     }
+    /**
+     * Parse the serves meta field
+     *
+     * @param string $raw the raw data provided to the meta field
+     * @return mixed data extracted from the meta field.
+     */
+    private function parseMeta_serves($raw) {
+        return $raw;
+    }
 }

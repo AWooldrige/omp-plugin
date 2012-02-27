@@ -66,7 +66,7 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
      */
     public function parseLine($line = '') {
         $line = trim($line);
-        $cols = explode(self::SEP, $line);
+        $cols = explode(self::SEP, $line, 3);
 
         for($i=0; $i<count($cols); $i++) {
             $cols[$i] = trim($cols[$i]);

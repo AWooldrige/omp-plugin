@@ -227,6 +227,12 @@ Perhaps some random text with an ^
       over
       multiple lines
 
+=== Meta ===
+Serves - 4
+Difficulty - 3
+Active Time - 10 min
+Inactive Time - 2 hours 20 minutes
+
 === Tips ===
  - This is a tip
     - So is this
@@ -237,7 +243,7 @@ describing what it was like
 to make it?
 RECIPE;
 
-        $activeComponents = array('Ingredients', 'Method', 'Tips', 'Text');
+        $activeComponents = array('Ingredients', 'Method', 'Tips', 'Text', 'Meta');
 
         $expectedPostConsumption = null;
 
@@ -294,6 +300,12 @@ RECIPE;
                         )
                     )
                 )
+            ),
+            'Meta' => array(
+                'serves' => '4',
+                'difficulty' => '3',
+                'active_time' => '10 min',
+                'inactive_time' => '2 hours 20 minutes'
             ),
             'Tips' => array(
                 array(

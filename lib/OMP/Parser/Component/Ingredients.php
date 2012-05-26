@@ -1,6 +1,7 @@
 <?php
 
-class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
+class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract
+{
 
     const SECTION_HEADER = 'Ingredients';
 
@@ -25,7 +26,7 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
         $paragraphs = OMP_Utilities::splitOnParagraphs($this->rawText);
 
         //Go over each paragraph in the text provided
-        foreach($paragraphs as $p) {
+        foreach ($paragraphs as $p) {
             $lines = OMP_Utilities::splitOnNewlines($p);
 
             //Is the first line an Ingredients line? parseSectionHeader throws
@@ -33,8 +34,12 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
             try {
                 $sectionHeader = $this->parseSectionHeader($lines[0]);
 
-                if($sectionHeader['type'] != self::SECTION_HEADER) {
-                    throw new InvalidArgumentException('Section Header does not match an Ingredients Header. Looking for: '.self::SECTION_HEADER.' in line: ' . $lines[0]);
+                if ($sectionHeader['type'] != self::SECTION_HEADER) {
+                    throw new InvalidArgumentException(
+                        'Section Header does not match an Ingredients Header. '.
+                        'Looking for: ' .  self::SECTION_HEADER.' in line: ' .
+                        $lines[0]
+                    );
                 }
             }
             catch(InvalidArgumentException $e) {
@@ -45,7 +50,7 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
             //Can assume at this point that this paragraph is an attempt at
             //an ingredients paragraph
             $ingredients = array();
-            for($i=1; $i<count($lines); $i++) {
+            for ($i=1; $i<count($lines); $i++) {
                 $ingredients[] = $this->parseLine($lines[$i]);
             }
             $this->appendParsedData($sectionHeader['for'], $ingredients);
@@ -68,10 +73,14 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
         $line = trim($line);
         $cols = explode(self::SEP, $line, 3);
 
-        for($i=0; $i<count($cols); $i++) {
+        for ($i=0; $i<count($cols); $i++) {
             $cols[$i] = trim($cols[$i]);
-            if(strlen($cols[$i]) == 0)
-                throw new InvalidArgumentException('Either a blank ingredient line was provided, or a separator followed by no argument. Offending line: ' . $line);
+            if (strlen($cols[$i]) == 0)
+                throw new InvalidArgumentException(
+                    'Either a blank ingredient line was provided, or a ' .
+                    'separator followed by no argument. Offending line: ' .
+                    $line
+                );
         }
 
         return array(
@@ -91,11 +100,11 @@ class OMP_Parser_Component_Ingredients extends OMP_Parser_Component_Abstract {
      * @param $ingredients array list of ingredients
      */
     public function appendParsedData($component, $ingredients) {
-        if($component == null) {
+        if ($component == null) {
             $component = '_';
         }
 
-        if(array_key_exists($component, $this->parsedData)) {
+        if (array_key_exists($component, $this->parsedData)) {
             throw new InvalidArgumentException('Two Ingredients sections ' .
                 'for the same "'.$component.' component have been specified');
         }

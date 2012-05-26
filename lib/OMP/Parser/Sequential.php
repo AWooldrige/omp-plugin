@@ -5,7 +5,8 @@
  * text from the previous component, into the input of the next. In a chaining
  * style.
  */
-class OMP_Parser_Sequential extends OMP_Parser_Abstract {
+class OMP_Parser_Sequential extends OMP_Parser_Abstract
+{
 
     /**
      * Sequentially parse the text within rawText, using the components
@@ -18,15 +19,15 @@ class OMP_Parser_Sequential extends OMP_Parser_Abstract {
      */
     public function parse($rawText = null, $activeComponents = null) {
         if((null !== $rawText))
-            $this->rawText = $rawText;
+            $this->_rawText = $rawText;
         if(null !== $activeComponents)
-            $this->activeComponents = $activeComponents;
+            $this->_activeComponents = $activeComponents;
 
         $tmpData = array();
-        $tmpText = $this->rawText;
+        $tmpText = $this->_rawText;
 
         //Chain the ouput of each component
-        foreach($this->activeComponents as $c) {
+        foreach ($this->_activeComponents as $c) {
             $componentName = 'OMP_Parser_Component_' . $c;
             $component = new $componentName();
             $component->setRawText($tmpText);
@@ -36,10 +37,10 @@ class OMP_Parser_Sequential extends OMP_Parser_Abstract {
             $tmpData[$c] = $component->getParsedData();
         }
 
-        $this->parsedData = $tmpData;
-        $this->postConsumedText = (strlen(trim($tmpText)) === 0) ?
+        $this->_parsedData = $tmpData;
+        $this->_postConsumedText = (strlen(trim($tmpText)) === 0) ?
                                   null : $tmpText;
 
-        return $this->parsedData;
+        return $this->_parsedData;
     }
 }

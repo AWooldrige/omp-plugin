@@ -58,9 +58,17 @@ function ompContentFilter() {
     foreach($posts as $p) {
 
         $parser = new OMP_Parser_Sequential();
-        $p->recipe_data = $parser->parse($p->post_content, $activeComponents);
-        $p->post_content = $p->recipe_data['Text']['summary'] .
-               $p->recipe_data['Text']['other'];
-        $p->post_content_filtered = $p->post_content;
+
+        try {
+            $p->recipe_data = $parser->parse($p->post_content, $activeComponents);
+            $p->post_content = $p->recipe_data['Text']['summary'] .
+                   $p->recipe_data['Text']['other'];
+            $p->post_content_filtered = $p->post_content;
+        }
+        catch (Exception $e) {
+            $p->recipe_data = null;
+            $p->post_content = 'ERROR PARSING RECIPE: ' . $e->getMessage();
+            $p->post_content_filtered = $p->post_content;
+        }
     }
 }

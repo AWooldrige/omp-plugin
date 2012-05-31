@@ -41,6 +41,7 @@ if(!is_admin()) {
     add_action('wp', 'ompContentFilter');
 }
 
+
 /**
  * Parser for the content returned by the database.
  *
@@ -71,4 +72,19 @@ function ompContentFilter() {
             $p->post_content_filtered = $p->post_content;
         }
     }
+}
+
+
+add_filter('pre_update_option_sticky_posts', 'ompStickyPostsFilter', 10, 2);
+
+/**
+ * When a new post is made sticky, ensure it is the only one which is.
+ * I.e. Only one post can be sticky at a time.
+ *
+ * @param array $stickyPosts of posts which are sticky
+ * @access public
+ * @return array of sticky posts, which only contains the one element
+ */
+function ompStickyPostsFilter($new, $old) {
+    return OMP_Wordpress_Utilities::oneStickyPost($old, $new);
 }

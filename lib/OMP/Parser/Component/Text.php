@@ -1,6 +1,7 @@
 <?php
 
-class OMP_Parser_Component_Text extends OMP_Parser_Component_Abstract {
+class OMP_Parser_Component_Text extends OMP_Parser_Component_Abstract
+{
 
     const SECTION_HEADER = 'Text';
 
@@ -30,7 +31,7 @@ class OMP_Parser_Component_Text extends OMP_Parser_Component_Abstract {
 
         $pParas = array();
 
-        foreach($paragraphs as $p) {
+        foreach ($paragraphs as $p) {
             $lines = OMP_Utilities::splitOnNewlines($p);
 
             //See if this paragraph contains a section header
@@ -45,21 +46,20 @@ class OMP_Parser_Component_Text extends OMP_Parser_Component_Abstract {
             }
         }
 
-        if(count($pParas) == 0) {
+        if (count($pParas) == 0) {
             return null;
         }
 
         //Merge all manual linebreaks
-        for($i = 0; $i < count($pParas); $i++) {
+        for ($i = 0; $i < count($pParas); $i++) {
             $pParas[$i] = OMP_Utilities::mergeManualLinebreaks($pParas[$i]);
         }
 
         $this->parsedData = array(
             'summary' => $pParas[0],
-            'other' => (count($pParas) > 1) ?
-                            OMP_Utilities::mergeOnParagraphs(
-                                array_slice($pParas, 1)) :
-                            null
+            'other' => (count($pParas) > 1) ? OMP_Utilities::mergeOnParagraphs(
+                    array_slice($pParas, 1)
+                ) : null
         );
         return $this->getParsedData();
     }

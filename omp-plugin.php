@@ -37,6 +37,11 @@ remove_filter('the_excerpt', 'wptexturize');
 remove_filter('the_title', 'wpautop');
 remove_filter('the_title', 'wptexturize');
 
+//If we're on a development theme, don't cache anything!
+if (strpos(get_option('template'), '-dev') !== false) {
+    header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate', true);
+}
+
 if(!is_admin()) {
     add_action('wp', 'ompContentFilter');
 }

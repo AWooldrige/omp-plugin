@@ -7,7 +7,7 @@
  * keep some separation
  *
  * @package OMP
- * @subpackage Parser
+ * @subpackage Wordpress
  * @copyright 1997-2012 Alistair Wooldrige
  * @author Alistair Wooldrige <alistair@wooldrige.co.uk>
  * @license Apache License, Version 2.0 {@link http://www.apache.org/licenses/LICENSE-2.0}

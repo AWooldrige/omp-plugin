@@ -44,7 +44,7 @@ class OMP_Wordpress_DynamicResize {
      * @access public
      * @return string URL of the resized image
      */
-    public function getResizedImageFromId($id, $width, $height, $options=null) {
+    public static function getResizedImageFromId($id, $width, $height, $options=null) {
 
         $width = absint($width);
         $height = absint($height);
@@ -123,7 +123,7 @@ class OMP_Wordpress_DynamicResize {
      * @access public
      * @return string URL of the resized image
      */
-    public function getResizedImageFromUrl($url, $width, $height, $options=null) {
+    public static function getResizedImageFromUrl($url, $width, $height, $options=null) {
 
         $width = absint($width);
         $height = absint($height);
@@ -152,11 +152,29 @@ class OMP_Wordpress_DynamicResize {
             return "Error: attachment not found.";
         }
 
-        return $this->getResizedImageFromId(
+        return OMP_Wordpress_DynamicResize::getResizedImageFromId(
             $attachment_id,
             $width,
             $height,
             $options
         );
+    }
+
+
+    /**
+     * Is the size of image already resized by WordPress suitable for the
+     * dimensions of image desired? If null is provided for either width or
+     * height, then this is unbounded (I.e. was resized to maintain aspect
+     * ratio).
+     *
+     * @param mixed $eWidth width in pixels (or null to maintain aspect ratio)
+     *        of the expected image
+     * @param mixed $eHeight height in pixels (or null to maitain aspect ratio)
+     *        of the expected image
+     * @static
+     * @access public
+     * @return boolean true if a suitable match
+     */
+    public static function isSizeMatch($eWidth, $eHeight, $aWidth, $aHeight) {
     }
 }

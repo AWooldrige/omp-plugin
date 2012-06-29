@@ -167,14 +167,36 @@ class OMP_Wordpress_DynamicResize {
      * height, then this is unbounded (I.e. was resized to maintain aspect
      * ratio).
      *
-     * @param mixed $eWidth width in pixels (or null to maintain aspect ratio)
-     *        of the expected image
-     * @param mixed $eHeight height in pixels (or null to maitain aspect ratio)
-     *        of the expected image
+     * @param (int|null) $eWidth width in pixels (or null to maintain aspect
+     *        ratio) of the expected image
+     * @param (int|null) $eHeight height in pixels (or null to maitain aspect
+     *        ratio) of the expected image
+     * @param int $width width in pixels of the actual image
+     * @param int $height height in pixels of the actual image
+     *
      * @static
      * @access public
      * @return boolean true if a suitable match
      */
-    public static function isSizeMatch($eWidth, $eHeight, $aWidth, $aHeight) {
+    public static function isSizeMatch($eWidth, $eHeight, $width, $height) {
+        //Can't have both null
+        if((true === is_null($eWidth)) and (true === is_null($eHeight))) {
+            throw new InvalidArgumentException(
+                'Both the expected width and height can\'t be null'
+            );
+        }
+
+        //If we don't care about the width, just check that the height matches
+        if(true === is_null($eWidth)) {
+            return ($eHeight === $height);
+        }
+
+        //If we don't care about the height, just check that the width matches
+        if(true === is_null($eHeight)) {
+            return ($eWidth === $width);
+        }
+
+        //If we've reached here, must care about an exact match
+        return (($eWidth === $width) and ($eHeight === $height));
     }
 }

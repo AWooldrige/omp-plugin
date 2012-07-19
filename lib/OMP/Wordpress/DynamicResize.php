@@ -22,13 +22,6 @@
 class OMP_Wordpress_DynamicResize {
 
     /**
-     * TODO
-     *
-     * This class needs a large refactory, at the moment it is based almost
-     * verbatim on the original. This needs splitting out and unit testing
-     */
-
-    /**
      * Dynamically generate a different sized version of an already existing
      * attachment image specified by an attachment ID
      *
@@ -36,75 +29,93 @@ class OMP_Wordpress_DynamicResize {
      *       https://gist.github.com/1984363
      *
      * @param int $id the attachment id of the image to resize
-     * @param mixed $width width to resize to, null instructs that the width
-     *        should be chosen to maintain aspect ratio given the height
-     * @param mixed $height height to resize to, null instructs that the height
-     *        should be chosen to maintain aspect ratio given the width
+     * @param (int|null) $width width to resize to, null instructs that the
+     *        width should be chosen to maintain aspect ratio given the height
+     * @param (int|null) $height height to resize to, null instructs that the
+     *        height should be chosen to maintain aspect ratio given the width
      * @param array $options array of extra options
      * @access public
      * @return string URL of the resized image
      */
     public static function getResizedImageFromId($id, $width, $height, $options=null) {
 
-        $width = absint($width);
-        $height = absint($height);
-        $needs_resize = true;
-
-        // Look through the attachment meta data for an image that fits our size.
-        $meta = wp_get_attachment_metadata( $attachment_id );
+        //Look through the attachment meta data for an image that fits our size.
+        $meta = wp_get_attachment_metadata( $id );
         foreach($meta['sizes'] as $key => $size) {
-            if ($size['width'] == $width && $size['height'] == $height) {
-                $src = str_replace( basename( $src ), $size['file'], $src );
-                $needs_resize = false;
-                break;
+            $w = (int) $size['width'];
+            $h = (int) $size['height'];
+
+            if(self::isSizeMatch($width, $height, $w, $h)) {
+
+                //We have a matching size, grab the metadata to return
+                $i = wp_get_attachment_image_src($id, array($w, $h));
+                return array(
+                    'url' => $i[0],
+                    'width' => $i[1],
+                    'height' => $i[2]
+                );
             }
         }
 
         // If an image of such size was not found, we can create one.
-        if ($needs_resize) {
-            $attached_file = get_attached_file( $attachment_id );
-            $resized = image_make_intermediate_size(
-                $attached_file,
-                $width,
-                $height,
-                true
+        $attached_file = get_attached_file( $id );
+
+        //Get the dimensions of the full size image
+        $d = wp_get_attachment_image_src($id, 'full');
+
+        /**
+         * image_make_intermediate_size will resize or crop, we therefore
+         * have to provide provide an exact width and height, and whether
+         * to crop or resize.
+         */
+        $dimensions = self::calculateSize($width, $height, $d[1], $d[2]);
+
+        //Do that actual resizing
+        $resized = image_make_intermediate_size(
+            $attached_file,
+            $dimensions['width'],
+            $dimensions['height'],
+            $dimensions['crop']
+        );
+
+        //Something went wrong with the resize
+        if (false === $resized) {
+            throw new Exception(
+                'Could not resize image using image_make_intermediate_size'
             );
-
-            if (!is_wp_error($resized)) {
-
-                // Let metadata know about our new size.
-                $key = sprintf( 'resized-%dx%d', $width, $height );
-                $meta['sizes'][$key] = $resized;
-
-                $src = str_replace(
-                    basename( $src ),
-                    $resized['file'],
-                    $src
-                );
-                wp_update_attachment_metadata( $attachment_id, $meta );
-
-                // Record in backup sizes so everything's cleaned up when
-                // attachment is deleted.
-                $backup_sizes = get_post_meta(
-                    $attachment_id,
-                    '_wp_attachment_backup_sizes',
-                    true
-                );
-
-                if (! is_array($backup_sizes)) {
-                    $backup_sizes = array();
-                }
-
-                $backup_sizes[$key] = $resized;
-                update_post_meta(
-                    $attachment_id,
-                    '_wp_attachment_backup_sizes',
-                    $backup_sizes
-                );
-            }
         }
 
-        return esc_url($src);
+        //Update the metadata with the size of our new image
+        $key = sprintf(
+            'resized-%dx%d',
+            $dimensions['width'],
+            $dimensions['height']
+        );
+        $meta['sizes'][$key] = $resized;
+
+        wp_update_attachment_metadata( $id, $meta );
+
+        //Record in backup sizes so when the original image is deleted, the
+        //resized image is deleted to
+        $bkpSizes = get_post_meta($id, '_wp_attachment_backup_sizes', true);
+
+        if (!is_array($bkpSizes)) {
+            $bkpSizes = array();
+        }
+
+        $bkpSizes[$key] = $resized;
+        update_post_meta($id, '_wp_attachment_backup_sizes', $bkpSizes);
+
+        $imgMeta = wp_get_attachment_image_src(
+            $id,
+            array($dimensions['width'], $dimensions['height'])
+        );
+
+        return array(
+            'url' => $imgMeta[0],
+            'width' => $imgMeta[1],
+            'height' => $imgMeta[2]
+        );
     }
 
     /**
@@ -198,5 +209,56 @@ class OMP_Wordpress_DynamicResize {
 
         //If we've reached here, must care about an exact match
         return (($eWidth === $width) and ($eHeight === $height));
+    }
+
+
+    /**
+     * Calculate both the dimensions of the new image to resize to, and whether
+     * this needs cropping or resizing (workaround to make
+     * image_get_intermediate size do what we want)
+     *
+     * @param (int|null) $eWidth width in pixels (or null to maintain aspect
+     *        ratio) of the expected image
+     * @param (int|null) $eHeight height in pixels (or null to maitain aspect
+     *        ratio) of the expected image
+     * @param int $width width in pixels of the actual image
+     * @param int $height height in pixels of the actual image
+     *
+     * @static
+     * @access public
+     * @return array new image dimensions. Array keys being: width, height
+     *         and crop (whether to crop or resize, true to resize)
+     */
+    public static function calculateSize($eWidth, $eHeight, $width, $height) {
+        //Can't have both null
+        if((true === is_null($eWidth)) and (true === is_null($eHeight))) {
+            throw new InvalidArgumentException(
+                'Both the expected width and height can\'t be null'
+            );
+        }
+
+        //If we don't care about the width, scale width to match the height
+        if(is_null($eWidth)) {
+            return array(
+                'width' => (int) ($width * ($eHeight / $height)),
+                'height' => $eHeight,
+                'crop' => true
+            );
+        }
+
+        //If we don't care about the height, just check that the width matches
+        if(true === is_null($eHeight)) {
+            return array(
+                'width' => $eWidth,
+                'height' => (int) ($height * ($eWidth / $width)),
+                'crop' => true
+            );
+        }
+
+        return array(
+            'width' => $eWidth,
+            'height' => $eHeight,
+            'crop' => false
+        );
     }
 }

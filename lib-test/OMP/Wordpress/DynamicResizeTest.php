@@ -175,21 +175,21 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             array(
                 400, null,
                 1024, 800,
-                400, 312, true
+                400, 312, false
             ),
 
             //Upscaling the height
             array(
                 4000, null,
                 1024, 800,
-                4000, 3125, true
+                4000, 3125, false
             ),
 
             //Equal height
             array(
                 1024, null,
                 1024, 800,
-                1024, 800, true
+                1024, 800, false
             ),
 
 
@@ -201,21 +201,21 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             array(
                 null, 400,
                 800, 1024,
-                312, 400, true
+                312, 400, false
             ),
 
             //Upscaling the width
             array(
                 null, 4000,
                 800, 1024,
-                3125, 4000, true
+                3125, 4000, false
             ),
 
             //Equal width
             array(
                 null, 1024,
                 800, 1024,
-                800, 1024, true
+                800, 1024, false
             ),
 
 
@@ -227,20 +227,20 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             array(
                 400, 100,
                 400, 100,
-                400, 100, false
+                400, 100, true
             ),
 
             array(
                 1, 1234,
                 1, 1234,
-                1, 1234, false
+                1, 1234, true
             ),
 
             //Both width and height don't match
             array(
                 400, 100,
                 10, 20,
-                400, 100, false
+                400, 100, true
             )
         );
     }

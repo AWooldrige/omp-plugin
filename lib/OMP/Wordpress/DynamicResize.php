@@ -242,7 +242,7 @@ class OMP_Wordpress_DynamicResize {
             return array(
                 'width' => (int) ($width * ($eHeight / $height)),
                 'height' => $eHeight,
-                'crop' => true
+                'crop' => false
             );
         }
 
@@ -251,14 +251,14 @@ class OMP_Wordpress_DynamicResize {
             return array(
                 'width' => $eWidth,
                 'height' => (int) ($height * ($eWidth / $width)),
-                'crop' => true
+                'crop' => false
             );
         }
 
         return array(
             'width' => $eWidth,
             'height' => $eHeight,
-            'crop' => false
+            'crop' => true
         );
     }
 }

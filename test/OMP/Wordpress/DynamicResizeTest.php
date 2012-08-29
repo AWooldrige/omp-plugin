@@ -244,4 +244,58 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             )
         );
     }
+
+
+    /**
+     * Ensure that the correct path is returned given the original, width and
+     * height
+     *
+     * @dataProvider data_resizeCachePath
+     */
+    public function test_resizeCachePath($path, $width, $height, $expected) {
+        $this->assertEquals(
+            $expected,
+            OMP_Wordpress_DynamicResize::resizeCachePath($path, $width, $height)
+        );
+    }
+    /**
+     * Returns data for data_resizedCachePath. Format:
+     *   - Filepath to full size image
+     *   - Width of resized image
+     *   - Height of resized image
+     *   - Expected filepath of resized image
+     */
+    public function data_resizeCachePath() {
+        return array(
+            //Absolute path to normal image
+            array(
+                '/var/wp-content/06/image.jpg',
+                '100',
+                '200',
+                '/var/wp-content/06/100-200-image.jpg'
+            ),
+
+            //Absolute path to PNG image
+            array('/var/image.PNG', '12', '567', '/var/12-567-image.PNG'),
+
+            //A path with multiple file extensions
+            array('/var/i.old.jpg', '12', '567', '/var/12-567-i.old.jpg'),
+
+            //No filename for some reason
+            array('/var/.JPG', '12', '70', '/var/12-70-.JPG'),
+
+            //Decimal within directory
+            array('/var.d/t.1.jpg', '12', '70', '/var.d/12-70-t.1.jpg'),
+
+            //No extension
+            array('/var/image', '12', '70', '/var/12-70-image'),
+
+            //Relative path
+            array('test.jpg', '12', '70', '12-70-test.jpg'),
+
+            //Relative path, no extensions
+            array('test', '12', '70', '12-70-test')
+        );
+    }
+
 }

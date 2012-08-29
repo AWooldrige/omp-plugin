@@ -11,7 +11,7 @@
  *  - A theme requests an image in a certain width/height
  *  - This checks for a cached copy of that resized version and if there is,
  *    serves that.
- *  - If there isn't the image is resized and information about it is added
+ *  - If there isn't the image is resized and cached
  *
  * @package OMP
  * @subpackage Wordpress
@@ -20,6 +20,42 @@
  * @license Apache License, Version 2.0 {@link http://www.apache.org/licenses/LICENSE-2.0}
  */
 class OMP_Wordpress_DynamicResize {
+
+    /**
+     * For the given attachment and requested width and height, see if a cached
+     * copy exists.
+     *
+     * @param int $attachmentId ID of full size image
+     * @param int $width width of the resized image
+     * @param int $height height of the resized image
+     * @static
+     * @access public
+     * @return boolean whether the cached file exists
+     */
+    public static function cacheExists($attachmentId, $width, $height) {
+
+    }
+
+    /**
+     * From the supplied path to a fullsize image, return the path to the
+     * cached image for the width and heigh provided. This can be a filepath
+     * or URL.
+     *
+     * @param string $path absoute or relative path to fullsize image
+     * @param int $width width of the resized image
+     * @param int $height height of the resized image
+     * @static
+     * @access public
+     * @return string path to cached image for the size provided
+     */
+    public static function resizeCachePath($path, $width, $height) {
+        $parts = explode('/', $path);
+
+        $parts[count($parts)-1] = $width . '-' . $height . '-' .
+            $parts[count($parts)-1];
+
+        return implode('/', $parts);
+    }
 
     /**
      * Dynamically generate a different sized version of an already existing

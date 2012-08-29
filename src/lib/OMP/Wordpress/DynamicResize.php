@@ -33,7 +33,7 @@ class OMP_Wordpress_DynamicResize {
      * @return boolean whether the cached file exists
      */
     public static function cacheExists($attachmentId, $width, $height) {
-
+        
     }
 
     /**
@@ -49,12 +49,14 @@ class OMP_Wordpress_DynamicResize {
      * @return string path to cached image for the size provided
      */
     public static function resizeCachePath($path, $width, $height) {
-        $parts = explode('/', $path);
+        $dirSplit = explode('/', $path);
 
-        $parts[count($parts)-1] = $width . '-' . $height . '-' .
-            $parts[count($parts)-1];
+        $extSplit = explode('.', $dirSplit[count($dirSplit)-1]);
+        $extSplit[0] .= '-' . $width . '-' . $height;
 
-        return implode('/', $parts);
+        $dirSplit[count($dirSplit)-1] = implode('.', $extSplit);
+
+        return implode('/', $dirSplit);
     }
 
     /**

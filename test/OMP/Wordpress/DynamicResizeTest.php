@@ -272,29 +272,29 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
                 '/var/wp-content/06/image.jpg',
                 '100',
                 '200',
-                '/var/wp-content/06/100-200-image.jpg'
+                '/var/wp-content/06/image-100-200.jpg'
             ),
 
             //Absolute path to PNG image
-            array('/var/image.PNG', '12', '567', '/var/12-567-image.PNG'),
+            array('/var/image.PNG', '12', '567', '/var/image-12-567.PNG'),
 
             //A path with multiple file extensions
-            array('/var/i.old.jpg', '12', '567', '/var/12-567-i.old.jpg'),
+            array('/var/i.old.jpg', '12', '567', '/var/i-12-567.old.jpg'),
 
             //No filename for some reason
-            array('/var/.JPG', '12', '70', '/var/12-70-.JPG'),
+            array('/var/.JPG', '12', '70', '/var/-12-70.JPG'),
 
             //Decimal within directory
-            array('/var.d/t.1.jpg', '12', '70', '/var.d/12-70-t.1.jpg'),
+            array('/var.d/t.1.jpg', '12', '70', '/var.d/t-12-70.1.jpg'),
 
             //No extension
-            array('/var/image', '12', '70', '/var/12-70-image'),
+            array('/var/image', '12', '70', '/var/image-12-70'),
 
             //Relative path
-            array('test.jpg', '12', '70', '12-70-test.jpg'),
+            array('test.jpg', '12', '70', 'test-12-70.jpg'),
 
             //Relative path, no extensions
-            array('test', '12', '70', '12-70-test')
+            array('test', '12', '70', 'test-12-70')
         );
     }
 

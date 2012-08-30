@@ -22,21 +22,6 @@
 class OMP_Wordpress_DynamicResize {
 
     /**
-     * For the given attachment and requested width and height, see if a cached
-     * copy exists.
-     *
-     * @param int $attachmentId ID of full size image
-     * @param int $width width of the resized image
-     * @param int $height height of the resized image
-     * @static
-     * @access public
-     * @return boolean whether the cached file exists
-     */
-    public static function cacheExists($attachmentId, $width, $height) {
-        
-    }
-
-    /**
      * From the supplied path to a fullsize image, return the path to the
      * cached image for the width and heigh provided. This can be a filepath
      * or URL.
@@ -52,7 +37,7 @@ class OMP_Wordpress_DynamicResize {
         $dirSplit = explode('/', $path);
 
         $extSplit = explode('.', $dirSplit[count($dirSplit)-1]);
-        $extSplit[0] .= '-' . $width . '-' . $height;
+        $extSplit[0] .= '-' . $width . 'x' . $height;
 
         $dirSplit[count($dirSplit)-1] = implode('.', $extSplit);
 
@@ -77,82 +62,44 @@ class OMP_Wordpress_DynamicResize {
      */
     public static function getResizedImageFromId($id, $width, $height, $options=null) {
 
-        //Look through the attachment meta data for an image that fits our size.
-        $meta = wp_get_attachment_metadata( $id );
-        foreach($meta['sizes'] as $key => $size) {
-            $w = (int) $size['width'];
-            $h = (int) $size['height'];
+        //Get the path and dimensions of the full size image
+        $d = wp_get_attachment_image_src($id, 'full');
+        $fullPath = get_attached_file($id);
+        $fullUrl = $d[0];
+        $fullWidth = $d[1];
+        $fullHeight = $d[2];
 
-            if(self::isSizeMatch($width, $height, $w, $h)) {
+        //Calculate the dimensions of the resized image
+        $rDim = self::calculateSize(
+            $width, $height, $fullWidth, $fullHeight
+        );
+        $rPath = self::resizeCachePath($fullPath, $rDim['width'], $rDim['height']);
+        $rUrl = self::resizeCachePath($fullUrl, $rDim['width'], $rDim['height']);
 
-                //We have a matching size, grab the metadata to return
-                $i = wp_get_attachment_image_src($id, array($w, $h));
-                return array(
-                    'url' => $i[0],
-                    'width' => $i[1],
-                    'height' => $i[2]
+        //Do we need to generate the resized image first?
+        if (False === file_exists($rPath)) {
+            /**
+             * image_make_intermediate_size will resize or crop, we therefore
+             * have to provide provide an exact width and height, and whether
+             * to crop or resize.
+             */
+            //Do that actual resizing
+            if (False === image_make_intermediate_size(
+                $fullPath,
+                $rDim['width'],
+                $rDim['height'],
+                $rDim['crop']
+            )) {
+                throw new Exception(
+                    'Could not resize image using image_make_intermediate_size'
                 );
             }
         }
 
-        // If an image of such size was not found, we can create one.
-        $attached_file = get_attached_file( $id );
-
-        //Get the dimensions of the full size image
-        $d = wp_get_attachment_image_src($id, 'full');
-
-        /**
-         * image_make_intermediate_size will resize or crop, we therefore
-         * have to provide provide an exact width and height, and whether
-         * to crop or resize.
-         */
-        $dimensions = self::calculateSize($width, $height, $d[1], $d[2]);
-
-        //Do that actual resizing
-        $resized = image_make_intermediate_size(
-            $attached_file,
-            $dimensions['width'],
-            $dimensions['height'],
-            $dimensions['crop']
-        );
-
-        //Something went wrong with the resize
-        if (false === $resized) {
-            throw new Exception(
-                'Could not resize image using image_make_intermediate_size'
-            );
-        }
-
-        //Update the metadata with the size of our new image
-        $key = sprintf(
-            'resized-%dx%d',
-            $dimensions['width'],
-            $dimensions['height']
-        );
-        $meta['sizes'][$key] = $resized;
-
-        wp_update_attachment_metadata( $id, $meta );
-
-        //Record in backup sizes so when the original image is deleted, the
-        //resized image is deleted to
-        $bkpSizes = get_post_meta($id, '_wp_attachment_backup_sizes', true);
-
-        if (!is_array($bkpSizes)) {
-            $bkpSizes = array();
-        }
-
-        $bkpSizes[$key] = $resized;
-        update_post_meta($id, '_wp_attachment_backup_sizes', $bkpSizes);
-
-        $imgMeta = wp_get_attachment_image_src(
-            $id,
-            array($dimensions['width'], $dimensions['height'])
-        );
-
         return array(
-            'url' => $imgMeta[0],
-            'width' => $imgMeta[1],
-            'height' => $imgMeta[2]
+            'url' => $rUrl,
+            'width' => $rDim['width'],
+            'height' => $rDim['height']
         );
     }
 
@@ -208,7 +155,6 @@ class OMP_Wordpress_DynamicResize {
             $options
         );
     }
-
 
     /**
      * Is the size of image already resized by WordPress suitable for the

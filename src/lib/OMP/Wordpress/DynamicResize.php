@@ -98,6 +98,8 @@ class OMP_Wordpress_DynamicResize {
 
         return array(
             'url' => $rUrl,
+            'path' => $rPath,
+            'alt' => get_post_meta($id, '_wp_attachment_image_alt', true),
             'width' => $rDim['width'],
             'height' => $rDim['height']
         );
@@ -194,7 +196,6 @@ class OMP_Wordpress_DynamicResize {
         //If we've reached here, must care about an exact match
         return (($eWidth === $width) and ($eHeight === $height));
     }
-
 
     /**
      * Calculate both the dimensions of the new image to resize to, and whether

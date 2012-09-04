@@ -11,7 +11,6 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
         OMP_Wordpress_DynamicResize::isSizeMatch(null, null, 400, 100);
     }
 
-
     /**
      * test_isSizeMatch
      * @dataProvider dataProvider_isSizeMatch
@@ -54,7 +53,6 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             /**
              * Computing height to maintain aspect ratio with fixed width
              */
-
             //Large height, exact width
             array(100, null, 100, 400, true),
 
@@ -67,11 +65,9 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             //Too large width
             array(100, null, 101, 400, false),
 
-
             /**
              * Computing width to maintain aspect ratio with fixed height
              */
-
             //Large width, exact height
             array(null, 100, 400, 100, true),
 
@@ -84,11 +80,9 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             //Too large height
             array(null, 100, 400, 101, false),
 
-
             /**
              * Exact matches
              */
-
             //Exact image size matches should return true
             array(400, 100, 400, 100, true),
             array(1, 1234, 1, 1234, true),
@@ -104,9 +98,6 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             array(400, 100, 50, 100, false)
             );
     }
-
-
-
 
     /**
      * Wouldn't ever provide null null, if we weren't interested in resized
@@ -170,28 +161,24 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
              * If we are bounded by width, ensure that the height is calculated
              * correctly, and the resultant transformation is to resize
              */
-
             //Downscaling the height
             array(
                 400, null,
                 1024, 800,
                 400, 312, false
             ),
-
             //Upscaling the height
             array(
                 4000, null,
                 1024, 800,
                 4000, 3125, false
             ),
-
             //Equal height
             array(
                 1024, null,
                 1024, 800,
                 1024, 800, false
             ),
-
 
             /**
              * If we are bounded by height, ensure that the width is calculated
@@ -203,21 +190,18 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
                 800, 1024,
                 312, 400, false
             ),
-
             //Upscaling the width
             array(
                 null, 4000,
                 800, 1024,
                 3125, 4000, false
             ),
-
             //Equal width
             array(
                 null, 1024,
                 800, 1024,
                 800, 1024, false
             ),
-
 
             /**
              * If the expected width and height are both provided, we should
@@ -229,13 +213,11 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
                 400, 100,
                 400, 100, true
             ),
-
             array(
                 1, 1234,
                 1, 1234,
                 1, 1234, true
             ),
-
             //Both width and height don't match
             array(
                 400, 100,
@@ -244,7 +226,6 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             )
         );
     }
-
 
     /**
      * Ensure that the correct path is returned given the original, width and
@@ -267,6 +248,7 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
      */
     public function data_resizeCachePath() {
         return array(
+
             //Absolute path to normal image
             array(
                 '/var/wp-content/06/image.jpg',
@@ -297,5 +279,4 @@ class OMP_Wordpress_DynamicResizeTest extends PHPUnit_Framework_TestCase {
             array('test', '12', '70', 'test-12x70')
         );
     }
-
 }

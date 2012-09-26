@@ -1,4 +1,4 @@
-=== OnMyPlate.co.uk Recipe Manager ===
+=== OnMyPlate.co.uk Plugin ===
 Contributors: woolie
 Donate link: http://onmyplate.co.uk
 Tags: food, recipe, parser, markdown
@@ -6,58 +6,42 @@ Requires at least: 3.3.1
 Tested up to: 3.3.1
 Stable tag: {{VERSION}}
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+The OnMyPlate.co.uk Plugin (omp-plugin) provides functions needed by the
+OnMyPlate.co.uk Theme (omp-theme). Containins a PHP parser for OnMyPlate.co.uk
+Markup Language (omp-ml).
+
 
 == Description ==
-
+The OnMyPlate.co.uk Plugin (omp-plugin) provides functions needed by the
+OnMyPlate.co.uk Theme (omp-theme). Containins a PHP parser for OnMyPlate.co.uk
+Markup Language (omp-ml).
 
 
 == Installation ==
+Pre-Requirements:
+1. The Zend Framework is within `/usr/share/php/libzend-framework-php/`. E.g.
+   for Ubuntu: `apt-get install zend-framework`.
 
-This section describes how to install the plugin and get it working.
+=== From .tgz ===
+1. Upload the `{{ARCHIVE}}.tgz` to your `wp-content/plugins/`
+2. Extract the archive: `tar -zxf {{ARCHIVE}}.tgz ./`
+3. Disable the older version annd activate the new version of the plugin through
+   the 'Plugins' menu in WordPress
 
-e.g.
-
-1. Upload the `omp-plugin` directory to your `wp-content/plugins/`
-2. Ensure the Zend Framework is within `/usr/share/php/libzend-framework-php/` (in Ubuntu: `apt-get install TODO`)
-2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
-
-= A question that someone might have =
-
-An answer to that question.
+= What happens if multiple versions of the plugin are enabled at once  =
 
 
 == Screenshots ==
-
 1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
 the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
 2. This is the second screen shot
 
-== Changelog ==
 
-= 0.1 =
+== Changelog ==
+= 0.1.0 =
 * Initial release
 
 
 == Upgrade Notice ==
-
-
-== config.json Configuration ==
-= Active Components =
-
-Although there may be many components within the `OMP_Parser_Component_*`
-namespace, not all of them may be active. To configure the active components,
-the config.json key `active-omp-parser-components` should be used.
-
-This key references a list of components that should be used, in the order
-which they should be parsed. The parser will look for a class named
-`OMP_Parser_Component_<name>`, for each entry within the array.
-
-e.g.
-    "active-omp-parser-components" : [
-        "Ingredients",
-        "Method",
-        "Tips"
-    ]

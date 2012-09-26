@@ -3,7 +3,7 @@
 Plugin Name: OnMyPlate.co.uk Recipe Manager
 Plugin URI: https://github.com/AWooldrige/omp-plugin
 Description: Formatting for recipes on OnMyPlate.co.uk
-Version: 0.1.0
+Version: {{VERSION}}
 Author: Alistair Wooldrige
 Author URI: http://onmyplate.co.uk
 License: GPLv2 or later

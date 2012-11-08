@@ -42,7 +42,8 @@ build: clean test prep
 	find $(BUILDDIR) -type f | xargs perl -pi -e 's/{{ARCHIVE}}/$(ARCHIVE)/g'
 
 dist: build
-	tar -zvcf ./SOURCES/$(ARCHIVE).tgz -C ./BUILD/ .
+	tar -cjf ./SOURCES/$(ARCHIVE).tar.bz2 -C ./BUILD/ .
+	cd ./BUILD/ && zip -9 -r ../SOURCES/$(ARCHIVE).zip ${ARCHIVE} && cd -
 
 clean:
 	rm -rf BUILD SOURCES

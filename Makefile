@@ -3,7 +3,7 @@ VERSION = 0.1.0
 
 ARCHIVE = $(PACKAGE)-$(VERSION)
 BUILDDIR = ./BUILD/$(ARCHIVE)/
-DESTDIR = /var/www/onmyplate-co-uk/wp-content/plugins/
+DESTDIR = /var/www/wp_ompcouk/wp-content/plugins/
 
 .PHONY: test
 

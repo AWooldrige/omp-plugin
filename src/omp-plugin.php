@@ -67,7 +67,7 @@ function ompContentFilter() {
 
         try {
             $p->recipe_data = $parser->parse($p->post_content, $activeComponents);
-            $p->post_content = $p->recipe_data['Text']['summary'] .
+            $p->post_content = $p->recipe_data['Text']['summary'] . '<!--more--><br></br>' .
                    $p->recipe_data['Text']['other'];
             $p->post_content_filtered = $p->post_content;
         }

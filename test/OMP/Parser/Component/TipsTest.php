@@ -54,6 +54,41 @@ RECIPE;
         $this->assertEquals($expectedData, $this->component->getParsedData());
     }
 
+    /**
+     * What happens when there is only one tip?
+     */
+    public function test_parse_when_only_one_tip() {
+
+        $rawText = <<<RECIPE
+More text over
+
+multiple paragraphs
+
+=== Ingredients ===
+Dummy Ingredient
+
+=== Method ===
+- Do this
+- Then this, but this
+    - Subtask 1
+    - Subtask 2
+
+=== Tips ===
+ - This helps
+
+RECIPE;
+
+        $expectedData = array(
+            array(
+                'item' => 'This helps',
+                'subitems' => null
+            )
+        );
+
+        $this->component->setRawText($rawText);
+        $this->component->parse();
+        $this->assertEquals($expectedData, $this->component->getParsedData());
+    }
 
     /**
      * Test that it works in the case where there is more than one

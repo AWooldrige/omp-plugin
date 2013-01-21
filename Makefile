@@ -53,3 +53,7 @@ prep:
 
 test:
 	phpunit -c test/phpunit.xml
+
+release: dist
+	git tag -a v$(VERSION) -m"Tagging $(VERSION) release of omp-plugin"
+	git push --tags

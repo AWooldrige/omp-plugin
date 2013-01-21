@@ -1,5 +1,7 @@
-    * Adding test for if there is only 1 tip, this was a bug discovered in
-      omp-theme, but wasn't covered by a unit test here either.
+0.2.0 - 2013-01-21
+	* Adding === Images === section parser
+	* Adding test for if there is only 1 tip, this was a bug discovered in
+	  omp-theme, but wasn't covered by a unit test here either.
 
 0.1.0 - 2013-01-13
-    * Initial Release
+	* Initial Release

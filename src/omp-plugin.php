@@ -34,7 +34,7 @@ if(!is_admin()) {
  * @return void
  */
 function ompContentFilter() {
-    $activeComponents = array('Ingredients', 'Method', 'Tips', 'Text', 'Meta');
+    $activeComponents = array('Ingredients', 'Method', 'Tips', 'Images', 'Text', 'Meta');
 
     global $posts;
     foreach($posts as $p) {
@@ -45,12 +45,12 @@ function ompContentFilter() {
             $p->recipe_data = $parser->parse($p->post_content, $activeComponents);
             $p->post_content = $p->recipe_data['Text']['summary'] . '<!--more--><br></br>' .
                    $p->recipe_data['Text']['other'];
-            $p->post_content_filtered = $p->post_content;
+            //$p->post_content_filtered = $p->post_content;
         }
         catch (Exception $e) {
             $p->recipe_data = null;
             $p->post_content = 'ERROR PARSING RECIPE: ' . $e->getMessage();
-            $p->post_content_filtered = $p->post_content;
+            //$p->post_content_filtered = $p->post_content;
         }
     }
 }

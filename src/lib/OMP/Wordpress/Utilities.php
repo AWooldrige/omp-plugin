@@ -38,42 +38,4 @@ class OMP_Wordpress_Utilities {
         $diff = array_diff($new, $old);
         return array(array_pop($diff));
     }
-
-    /**
-     * Convert a human like duration sentance into ISO8601 duration format.
-     * E.g. '6 days, 8 hours' would convert to 'P6DT8H'
-     *
-     * @param string $durationString human duration sentance
-     * @static
-     * @access public
-     * @return string ISO8601 format duration string
-     */
-    public static function convertHumanDurationToIso8601($durationString) {
-        $keyMap = array(
-            's' => 'S',
-            'i' => 'M',
-            'h' => 'H',
-            'd' => 'D',
-            'm' => 'M',
-            'y' => 'Y'
-        );
-        $duration = DateInterval::createFromDateString($durationString);
-        $timeComponent = '';
-        $dateComponent = '';
-        foreach(array('h', 'i', 's') as $key) {
-            if($duration->$key > 0) {
-                $timeComponent .= $duration->$key . $keyMap[$key];
-            }
-        }
-        foreach(array('y', 'm', 'd') as $key) {
-            if($duration->$key > 0) {
-                $dateComponent .= $duration->$key . $keyMap[$key];
-            }
-        }
-        $iso = 'P' . $dateComponent;
-        if(mb_strlen($timeComponent) > 0) {
-            $iso .= 'T' . $timeComponent;
-        }
-        return $iso;
-    }
 }

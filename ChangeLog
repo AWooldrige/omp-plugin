@@ -1,3 +1,6 @@
+	* Removed active and inactive time in favour of cook and prep time
+	* Human time durations to ISO8601 convertor function
+
 0.2.0 - 2013-01-21
 	* Adding === Images === section parser
 	* Adding test for if there is only 1 tip, this was a bug discovered in

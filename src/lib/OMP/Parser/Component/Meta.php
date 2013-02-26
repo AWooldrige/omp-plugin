@@ -54,18 +54,14 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
 
                 $line = $this->parseLine($lines[$i]);
 
-                //Can we find a class method to process this meta field
+                //Can we find a class method to process this meta field further?
                 $functionName = 'parseMeta_'.$line['name'];
-                if(!method_exists(__CLASS__, $functionName)) {
-                    throw new InvalidArgumentException('The meta field "'.
-                        $line['name'].'" (normalised) could not be processed.'.
-                        ' An appropriate function parseMeta_'.$line['name'].
-                        ' could not be found');
-
-                    //If the exception is caught, just skip this.
-                    continue;
+                if(method_exists(__CLASS__, $functionName)) {
+                    $meta[$line['name']] = $this->$functionName($line['details']);
                 }
-                $meta[$line['name']] = $this->$functionName($line['details']);
+                else {
+                    $meta[$line['name']] = $line['details'];
+                }
             }
 
             $this->parsedData = $meta;
@@ -144,8 +140,8 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
      * @param string $raw the raw data provided to the meta field
      * @return mixed data extracted from the meta field.
      */
-    private function parseMeta_active_time($raw) {
-        return $raw;
+    private function parseMeta_cook_time($raw) {
+        return OMP_Utilities::convertHumanDurationToIso8601($raw);
     }
     /**
      * Parse the inactive_time meta field
@@ -153,43 +149,7 @@ class OMP_Parser_Component_Meta extends OMP_Parser_Component_Abstract {
      * @param string $raw the raw data provided to the meta field
      * @return mixed data extracted from the meta field.
      */
-    private function parseMeta_inactive_time($raw) {
-        return $raw;
-    }
-    /**
-     * Parse the difficulty meta field
-     *
-     * @param string $raw the raw data provided to the meta field
-     * @return mixed data extracted from the meta field.
-     */
-    private function parseMeta_difficulty($raw) {
-        return $raw;
-    }
-    /**
-     * Parse the rating meta field
-     *
-     * @param string $raw the raw data provided to the meta field
-     * @return mixed data extracted from the meta field.
-     */
-    private function parseMeta_rating($raw) {
-        return $raw;
-    }
-    /**
-     * Parse the cost meta field
-     *
-     * @param string $raw the raw data provided to the meta field
-     * @return mixed data extracted from the meta field.
-     */
-    private function parseMeta_cost($raw) {
-        return $raw;
-    }
-    /**
-     * Parse the serves meta field
-     *
-     * @param string $raw the raw data provided to the meta field
-     * @return mixed data extracted from the meta field.
-     */
-    private function parseMeta_serves($raw) {
-        return $raw;
+    private function parseMeta_prep_time($raw) {
+        return OMP_Utilities::convertHumanDurationToIso8601($raw);
     }
 }

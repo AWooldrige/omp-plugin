@@ -45,12 +45,11 @@ function ompContentFilter() {
             $p->recipe_data = $parser->parse($p->post_content, $activeComponents);
             $p->post_content = $p->recipe_data['Text']['summary'] . '<!--more--><br></br>' .
                    $p->recipe_data['Text']['other'];
-            //$p->post_content_filtered = $p->post_content;
         }
         catch (Exception $e) {
             $p->recipe_data = null;
-            $p->post_content = 'ERROR PARSING RECIPE: ' . $e->getMessage();
-            //$p->post_content_filtered = $p->post_content;
+            error_log($e->getMessage());
+            die('ERROR PARSING RECIPE: ' . $e->getMessage());
         }
     }
 }

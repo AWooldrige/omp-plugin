@@ -109,7 +109,8 @@ Active Time - 20m
 Inactive Time - 1hr 40m
 Difficulty - 2
 Rating - 5
-Cost - £4.20
+Cost - jsfd
+Other Random Field - Blue 123
 
 === Tips ===
  - Test tip
@@ -119,7 +120,8 @@ META;
             'inactive_time' => '1hr 40m',
             'difficulty' => '2',
             'rating' => '5',
-            'cost' => '£4.20'
+            'cost' => 'jsfd',
+            'other_random_field' => 'Blue 123'
         );
         $tmp[] = <<<POSTCONSUMED
 Some more text
@@ -159,26 +161,6 @@ Random more
 text
 
 === Meta ===
-Completely Unkown Meta Field - 20 m
-Inactive Time - 0
-
-=== Tips ===
- - Test tip
-META;
-        $tmp[] = 'InvalidArgumentException';
-        $toReturn[] = $tmp;
-
-        $tmp = array();
-        $tmp[] = <<<META
-Some more text
-
-=== Ingredients ===
-Test Ingredient - 1
-
-Random more
-text
-
-=== Meta ===
 Inactive Time - 0
 Without Data
 
@@ -200,7 +182,7 @@ text
 
 === Meta ===
 Inactive Time - 0
-%532Invalid - test
+%Invalid - test
 
 === Tips ===
  - Test tip
@@ -271,7 +253,8 @@ META;
             array('Two Words', 'two_words'),
             array('tHree woRds TEST', 'three_words_test'),
             array('already_correct', 'already_correct'),
-            array('  extra   whitespace   ', 'extra_whitespace')
+            array('  extra   whitespace   ', 'extra_whitespace'),
+            array('Field With Integer 22', 'field_with_integer_22')
         );
     }
 
@@ -301,6 +284,7 @@ META;
         return array(
             array('& Test', 'InvalidArgumentException'),
             array('  " Test Other', 'InvalidArgumentException'),
+            array('1st character a digit', 'InvalidArgumentException'),
         );
     }
 }
